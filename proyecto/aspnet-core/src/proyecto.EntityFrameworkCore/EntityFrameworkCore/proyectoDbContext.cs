@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using proyecto.Alertas;
+using proyecto.ListaNoticiaItems;
+using proyecto.ListaNoticias;
 using proyecto.noticias;
+using proyecto.Notificaciones;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -57,6 +61,10 @@ public class proyectoDbContext :
 
     /* Entidades de dominio */
     public DbSet<Noticia> Noticias { get; set; }
+    public DbSet<Alerta> Alertas { get; set; }
+    public DbSet<ListaNoticia> ListaNoticias { get; set; }
+    public DbSet<Notificacion> Notificaciones { get; set; }
+    public DbSet<ListaNoticiaItem> ListaNoticiaItems { get; set; }
 
     public proyectoDbContext(DbContextOptions<proyectoDbContext> options)
         : base(options)
@@ -97,7 +105,44 @@ public class proyectoDbContext :
             b.Property(x => x.autor).IsRequired().HasMaxLength(128);
             b.Property(x => x.encabezado).IsRequired().HasMaxLength(128);
             b.Property(x => x.cuerpo).IsRequired().HasMaxLength(128);
+             
+        });
+        
+        builder.Entity<Alerta>(b =>
+        {
+            b.ToTable("Alertas", proyectoConsts.DbSchema);
+            b.ConfigureByConvention(); 
+            b.Property(x => x.fecha).IsRequired();
+            b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
+        });
+        
+        builder.Entity<ListaNoticiaItem>().HasKey(sc => new { sc.ListaNoticiaId, sc.NoticiaId });
+        
+        builder.Entity<ListaNoticiaItem>()
+            .HasOne<ListaNoticia>(sc => sc.ListaNoticia)
+            .WithMany(s => s.ListaNoticiaItem)
+            .HasForeignKey(sc => sc.ListaNoticiaId);
+
+        builder.Entity<ListaNoticiaItem>()
+            .HasOne<Noticia>(sc => sc.Noticia)
+            .WithMany(s => s.ListaNoticiaItem)
+            .HasForeignKey(sc => sc.NoticiaId);
+
+        builder.Entity<ListaNoticia>(b =>
+        {
+            b.ToTable("ListaNoticias", proyectoConsts.DbSchema);
+            b.ConfigureByConvention(); 
+            b.Property(x => x.nombreLista).IsRequired().HasMaxLength(128);
             
+        });
+        
+        builder.Entity<Notificacion>(b =>
+        {
+            b.ToTable("Notificaciones", proyectoConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
+            b.Property(x => x.link).IsRequired().HasMaxLength(128);
+            b.Property(x => x.fecha).IsRequired();
         });
     }
 }

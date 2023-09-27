@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using proyecto.ListaNoticiaItems;
+using proyecto.ListaNoticias;
 using Volo.Abp.Domain.Entities;
 
 namespace proyecto.noticias
@@ -14,5 +16,7 @@ namespace proyecto.noticias
         public string autor { get; set; }
         public string encabezado { get; set; }
         public string cuerpo { get; set; }
+
+        public IList<ListaNoticiaItem> ListaNoticiaItem { get; set; }
     }
 }

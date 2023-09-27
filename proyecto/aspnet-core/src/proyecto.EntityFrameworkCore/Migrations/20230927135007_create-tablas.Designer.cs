@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using proyecto.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    partial class proyectoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230927135007_create-tablas")]
+    partial class createtablas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1680,89 +1683,6 @@ namespace proyecto.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-            modelBuilder.Entity("proyecto.Alertas.Alerta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("descripcion")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime>("fecha")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Alertas", (string)null);
-                });
-
-            modelBuilder.Entity("proyecto.ListaNoticiaItems.ListaNoticiaItem", b =>
-                {
-                    b.Property<int>("ListaNoticiaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NoticiaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("ListaNoticiaId", "NoticiaId");
-
-                    b.HasIndex("NoticiaId");
-
-                    b.ToTable("ListaNoticiaItems");
-                });
-
-            modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("nombreLista")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ListaNoticias", (string)null);
-                });
-
-            modelBuilder.Entity("proyecto.Notificaciones.Notificacion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("descripcion")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime>("fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("link")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notificaciones", (string)null);
-                });
-
             modelBuilder.Entity("proyecto.noticias.Noticia", b =>
                 {
                     b.Property<int>("Id")
@@ -1941,25 +1861,6 @@ namespace proyecto.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("proyecto.ListaNoticiaItems.ListaNoticiaItem", b =>
-                {
-                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
-                        .WithMany("ListaNoticiaItem")
-                        .HasForeignKey("ListaNoticiaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("proyecto.noticias.Noticia", "Noticia")
-                        .WithMany("ListaNoticiaItem")
-                        .HasForeignKey("NoticiaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ListaNoticia");
-
-                    b.Navigation("Noticia");
-                });
-
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
                 {
                     b.Navigation("Actions");
@@ -1998,16 +1899,6 @@ namespace proyecto.Migrations
             modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
                 {
                     b.Navigation("ConnectionStrings");
-                });
-
-            modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
-                {
-                    b.Navigation("ListaNoticiaItem");
-                });
-
-            modelBuilder.Entity("proyecto.noticias.Noticia", b =>
-                {
-                    b.Navigation("ListaNoticiaItem");
                 });
 #pragma warning restore 612, 618
         }

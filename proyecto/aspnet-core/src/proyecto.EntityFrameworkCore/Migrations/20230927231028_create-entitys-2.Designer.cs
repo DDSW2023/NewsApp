@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using proyecto.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    partial class proyectoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230927231028_create-entitys-2")]
+    partial class createentitys2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1729,8 +1732,7 @@ namespace proyecto.Migrations
 
                     b.Property<string>("nombreLista")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1771,6 +1773,9 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ListaNoticiaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("autor")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -1795,6 +1800,8 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ListaNoticiaId");
 
                     b.ToTable("Noticias", (string)null);
                 });
@@ -1960,6 +1967,13 @@ namespace proyecto.Migrations
                     b.Navigation("Noticia");
                 });
 
+            modelBuilder.Entity("proyecto.noticias.Noticia", b =>
+                {
+                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", null)
+                        .WithMany("listaNoticias")
+                        .HasForeignKey("ListaNoticiaId");
+                });
+
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
                 {
                     b.Navigation("Actions");
@@ -2003,6 +2017,8 @@ namespace proyecto.Migrations
             modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
                 {
                     b.Navigation("ListaNoticiaItem");
+
+                    b.Navigation("listaNoticias");
                 });
 
             modelBuilder.Entity("proyecto.noticias.Noticia", b =>
