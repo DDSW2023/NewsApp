@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using proyecto.noticias;
+using proyecto.Temas;
+using proyecto.Secciones;
+using proyecto.Imagenes;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -57,7 +60,9 @@ public class proyectoDbContext :
 
     /* Entidades de dominio */
     public DbSet<Noticia> Noticias { get; set; }
-
+    public DbSet<Tema> Temas { get; set; }
+    public DbSet<Seccion> Secciones { get; set; }
+    public DbSet<Imagen> Imagenes { get; set; }
     public proyectoDbContext(DbContextOptions<proyectoDbContext> options)
         : base(options)
     {
@@ -95,9 +100,34 @@ public class proyectoDbContext :
             b.Property(x => x.fecha).IsRequired();
             b.Property(x => x.titulo).IsRequired().HasMaxLength(128);
             b.Property(x => x.autor).IsRequired().HasMaxLength(128);
-            b.Property(x => x.encabezado).IsRequired().HasMaxLength(128);
-            b.Property(x => x.cuerpo).IsRequired().HasMaxLength(128);
             
+        });
+
+        builder.Entity<Tema>(b =>
+        {
+            b.ToTable("Temas", proyectoConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.nombre).IsRequired().HasMaxLength(128);
+            b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
+
+        });
+
+        builder.Entity<Seccion>(b => 
+        {
+            b.ToTable("Seccion", proyectoConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.titulo).IsRequired().HasMaxLength(128);
+            b.Property(x => x.cuerpo).IsRequired().HasMaxLength(128);
+        
+        });
+
+
+        builder.Entity<Imagen>(b =>
+        {
+            b.ToTable("Imagen", proyectoConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.formato).IsRequired().HasMaxLength(128);
+
         });
     }
 }
