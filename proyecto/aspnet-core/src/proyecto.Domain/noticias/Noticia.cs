@@ -14,9 +14,6 @@ namespace proyecto.noticias
         public DateTime fecha { get; set; }
         public string titulo { get; set; }
         public string autor { get; set; }
-        public string encabezado { get; set; }
-        public string cuerpo { get; set; }
-
         public IList<ListaNoticiaItem> ListaNoticiaItem { get; set; }
     }
 }
