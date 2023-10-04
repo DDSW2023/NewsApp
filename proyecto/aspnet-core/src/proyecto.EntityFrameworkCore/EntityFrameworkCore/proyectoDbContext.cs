@@ -21,6 +21,10 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using proyecto.Errores;
+using proyecto.Accesos;
+using proyecto.Usuarios;
+using proyecto.Busquedas;
 
 namespace proyecto.EntityFrameworkCore;
 
@@ -110,6 +114,38 @@ public class proyectoDbContext :
             b.Property(x => x.titulo).IsRequired().HasMaxLength(128);
             b.Property(x => x.autor).IsRequired().HasMaxLength(128);
             
+        });
+
+        builder.Entity<Error>(b =>
+        {
+            b.ToTable("Errores", proyectoConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
+        });
+
+        builder.Entity<Acceso>(b =>
+        {
+            b.ToTable("Accesos", proyectoConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.fecha).IsRequired();
+            b.Property(x => x.horaInicio).IsRequired();
+            b.Property(x => x.horaFin).IsRequired();
+        });
+
+        builder.Entity<Usuario>(b =>
+        {
+            b.ToTable("Usuario", proyectoConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.nombre).IsRequired().HasMaxLength(128);
+            b.Property(x => x.apellido).IsRequired().HasMaxLength(128);
+            b.Property(x => x.mail).IsRequired().HasMaxLength(128);
+        });
+
+        builder.Entity<Busqueda>(b =>
+        {
+            b.ToTable("Busquedas", proyectoConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.parametro).IsRequired().HasMaxLength(128);
         });
 
         builder.Entity<Tema>(b =>
