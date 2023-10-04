@@ -1,7 +1,14 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\proyecto",
+    "\\proyecto\\aspnet-core",
+    "\\proyecto\\aspnet-core\\src",
+    "\\proyecto\\aspnet-core\\src\\proyecto.DbMigrator",
+    "\\proyecto\\aspnet-core\\src\\proyecto.Domain",
+    "\\proyecto\\aspnet-core\\src\\proyecto.EntityFrameworkCore",
+    "\\proyecto\\aspnet-core\\src\\proyecto.EntityFrameworkCore\\EntityFrameworkCore"
   ],
-  "SelectedNode": "\\proyecto.sln",
+  "SelectedNode": "\\proyecto\\aspnet-core\\src\\proyecto.DbMigrator\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }
