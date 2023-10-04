@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\proyecto",
+    "\\proyecto\\aspnet-core"
   ],
-  "SelectedNode": "\\proyecto.sln",
+  "SelectedNode": "\\proyecto\\aspnet-core\\proyecto.sln",
   "PreviewInSolutionExplorer": false
 }

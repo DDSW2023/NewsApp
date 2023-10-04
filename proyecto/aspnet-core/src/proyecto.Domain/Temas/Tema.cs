@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
+using proyecto.TemaNoticias;
 
 namespace proyecto.Temas
 {
@@ -11,5 +12,6 @@ namespace proyecto.Temas
     {
         public string nombre { get; set; }
         public string descripcion { get; set; }
+        public IList<TemaNoticia> TemaNoticias { get; set; }
     }
 }
