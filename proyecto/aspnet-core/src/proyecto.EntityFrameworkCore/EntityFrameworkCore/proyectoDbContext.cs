@@ -25,6 +25,8 @@ using proyecto.Errores;
 using proyecto.Accesos;
 using proyecto.Usuarios;
 using proyecto.Busquedas;
+using proyecto.TemaNoticias;
+using System.Reflection.Emit;
 using System.Diagnostics;
 using System.Reflection.Emit;
 
@@ -78,6 +80,7 @@ public class proyectoDbContext :
     public DbSet<ListaNoticia> ListaNoticias { get; set; }
     public DbSet<Notificacion> Notificaciones { get; set; }
     public DbSet<ListaNoticiaItem> ListaNoticiaItems { get; set; }
+    public DbSet<TemaNoticia> TemaNoticias { get; set; } 
     public DbSet<Tema> Temas { get; set; }
     public DbSet<Seccion> Secciones { get; set; }
     public DbSet<Imagen> Imagenes { get; set; }
@@ -176,6 +179,18 @@ public class proyectoDbContext :
             b.Property(x => x.nombre).IsRequired().HasMaxLength(128);
             b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
         });
+
+        builder.Entity<TemaNoticia>().HasKey(sc => new { sc.NoticiaId, sc.TemaId });
+
+        builder.Entity<TemaNoticia>()
+            .HasOne<Tema>(sc => sc.Tema)
+            .WithMany(s => s.TemaNoticias)
+            .HasForeignKey(sc => sc.TemaId);
+
+        builder.Entity<TemaNoticia>()
+            .HasOne<Noticia>(sc => sc.Noticia)
+            .WithMany(s => s.TemaNoticias)
+            .HasForeignKey(sc => sc.NoticiaId);
 
         builder.Entity<Seccion>(b => 
         {

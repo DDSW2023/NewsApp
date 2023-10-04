@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using proyecto.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    partial class proyectoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231004212503_create-temanoticia")]
+    partial class createtemanoticia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1702,33 +1705,6 @@ namespace proyecto.Migrations
                     b.ToTable("Accesos", (string)null);
                 });
 
-            modelBuilder.Entity("proyecto.Accesos.Acceso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan>("horaFin")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan>("horaInicio")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Accesos", (string)null);
-                });
-
             modelBuilder.Entity("proyecto.Alertas.Alerta", b =>
                 {
                     b.Property<int>("Id")
@@ -1737,9 +1713,6 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ListaNoticiaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("descripcion")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -1750,55 +1723,7 @@ namespace proyecto.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ListaNoticiaId");
-
                     b.ToTable("Alertas", (string)null);
-                });
-
-            modelBuilder.Entity("proyecto.Busquedas.Busqueda", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("parametro")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Busquedas", (string)null);
-                });
-
-            modelBuilder.Entity("proyecto.Errores.Error", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AccesoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("descripcion")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccesoId");
-
-                    b.ToTable("Errores", (string)null);
                 });
 
             modelBuilder.Entity("proyecto.Busquedas.Busqueda", b =>
@@ -1899,12 +1824,6 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AlertaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.Property<string>("descripcion")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -1919,10 +1838,6 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AlertaId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Notificaciones", (string)null);
                 });
@@ -2186,50 +2101,6 @@ namespace proyecto.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("proyecto.Accesos.Acceso", b =>
-                {
-                    b.HasOne("proyecto.Usuarios.Usuario", "Usuario")
-                        .WithMany("Accesos")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("proyecto.Alertas.Alerta", b =>
-                {
-                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
-                        .WithMany("Alertas")
-                        .HasForeignKey("ListaNoticiaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ListaNoticia");
-                });
-
-            modelBuilder.Entity("proyecto.Busquedas.Busqueda", b =>
-                {
-                    b.HasOne("proyecto.Usuarios.Usuario", "Usuario")
-                        .WithMany("Busquedas")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("proyecto.Errores.Error", b =>
-                {
-                    b.HasOne("proyecto.Accesos.Acceso", "Acceso")
-                        .WithMany("Errores")
-                        .HasForeignKey("AccesoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Acceso");
-                });
-
             modelBuilder.Entity("proyecto.ListaNoticiaItems.ListaNoticiaItem", b =>
                 {
                     b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
@@ -2266,25 +2137,6 @@ namespace proyecto.Migrations
                     b.Navigation("Noticia");
 
                     b.Navigation("Tema");
-                });
-
-            modelBuilder.Entity("proyecto.Notificaciones.Notificacion", b =>
-                {
-                    b.HasOne("proyecto.Alertas.Alerta", "Alerta")
-                        .WithMany("Notificaciones")
-                        .HasForeignKey("AlertaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("proyecto.Usuarios.Usuario", "Usuario")
-                        .WithMany("Notificaciones")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Alerta");
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -2327,32 +2179,11 @@ namespace proyecto.Migrations
                     b.Navigation("ConnectionStrings");
                 });
 
-            modelBuilder.Entity("proyecto.Accesos.Acceso", b =>
-                {
-                    b.Navigation("Errores");
-                });
-
-            modelBuilder.Entity("proyecto.Alertas.Alerta", b =>
-                {
-                    b.Navigation("Notificaciones");
-                });
-
             modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
                 {
-                    b.Navigation("Alertas");
-
                     b.Navigation("ListaNoticiaItem");
                 });
 
-
-            modelBuilder.Entity("proyecto.Usuarios.Usuario", b =>
-            {
-                b.Navigation("Accesos");
-
-                b.Navigation("Busquedas");
-
-                b.Navigation("Notificaciones");
-            });
             modelBuilder.Entity("proyecto.Temas.Tema", b =>
                 {
                     b.Navigation("TemaNoticias");
