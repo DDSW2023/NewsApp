@@ -25,6 +25,8 @@ using proyecto.Errores;
 using proyecto.Accesos;
 using proyecto.Usuarios;
 using proyecto.Busquedas;
+using System.Diagnostics;
+using System.Reflection.Emit;
 
 namespace proyecto.EntityFrameworkCore;
 
@@ -68,11 +70,14 @@ public class proyectoDbContext :
 
     /* Entidades de dominio */
     public DbSet<Noticia> Noticias { get; set; }
+    public DbSet<Error> Error { get; set; }
+    public DbSet<Acceso> Acceso { get; set; }
+    public DbSet<Usuario> Usuario { get; set; }
+    public DbSet<Busqueda> Busqueda { get; set; }
     public DbSet<Alerta> Alertas { get; set; }
     public DbSet<ListaNoticia> ListaNoticias { get; set; }
     public DbSet<Notificacion> Notificaciones { get; set; }
     public DbSet<ListaNoticiaItem> ListaNoticiaItems { get; set; }
-
     public DbSet<Tema> Temas { get; set; }
     public DbSet<Seccion> Secciones { get; set; }
     public DbSet<Imagen> Imagenes { get; set; }
@@ -112,8 +117,7 @@ public class proyectoDbContext :
             b.ConfigureByConvention();
             b.Property(x => x.fecha).IsRequired();
             b.Property(x => x.titulo).IsRequired().HasMaxLength(128);
-            b.Property(x => x.autor).IsRequired().HasMaxLength(128);
-            
+            b.Property(x => x.autor).IsRequired().HasMaxLength(128); 
         });
 
         builder.Entity<Error>(b =>
@@ -123,6 +127,11 @@ public class proyectoDbContext :
             b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
         });
 
+        builder.Entity<Error>()
+            .HasOne<Acceso>(s => s.Acceso)
+            .WithMany(g => g.Errores)
+            .HasForeignKey(s => s.AccesoId);
+
         builder.Entity<Acceso>(b =>
         {
             b.ToTable("Accesos", proyectoConsts.DbSchema);
@@ -131,6 +140,11 @@ public class proyectoDbContext :
             b.Property(x => x.horaInicio).IsRequired();
             b.Property(x => x.horaFin).IsRequired();
         });
+
+        builder.Entity<Acceso>()
+            .HasOne<Usuario>(s => s.Usuario)
+            .WithMany(g => g.Accesos)
+            .HasForeignKey(s => s.UsuarioId);
 
         builder.Entity<Usuario>(b =>
         {
@@ -148,13 +162,19 @@ public class proyectoDbContext :
             b.Property(x => x.parametro).IsRequired().HasMaxLength(128);
         });
 
+        builder.Entity<Busqueda>()
+             .HasOne<Usuario>(s => s.Usuario)
+             .WithMany(g => g.Busquedas)
+             .HasForeignKey(s => s.UsuarioId);
+
+        /* Falta relación con la interfaz noticia "INoticia" */
+
         builder.Entity<Tema>(b =>
         {
             b.ToTable("Temas", proyectoConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.nombre).IsRequired().HasMaxLength(128);
             b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
-
         });
 
         builder.Entity<Seccion>(b => 
@@ -162,8 +182,7 @@ public class proyectoDbContext :
             b.ToTable("Seccion", proyectoConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.titulo).IsRequired().HasMaxLength(128);
-            b.Property(x => x.cuerpo).IsRequired().HasMaxLength(128);
-             
+            b.Property(x => x.cuerpo).IsRequired().HasMaxLength(128);     
         });
         
         builder.Entity<Alerta>(b =>
@@ -173,7 +192,12 @@ public class proyectoDbContext :
             b.Property(x => x.fecha).IsRequired();
             b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
         });
-        
+
+        builder.Entity<Alerta>()
+             .HasOne<ListaNoticia>(s => s.ListaNoticia)
+             .WithMany(g => g.Alertas)
+             .HasForeignKey(s => s.ListaNoticiaId);
+
         builder.Entity<ListaNoticiaItem>().HasKey(sc => new { sc.ListaNoticiaId, sc.NoticiaId });
         
         builder.Entity<ListaNoticiaItem>()
@@ -190,8 +214,7 @@ public class proyectoDbContext :
         {
             b.ToTable("ListaNoticias", proyectoConsts.DbSchema);
             b.ConfigureByConvention(); 
-            b.Property(x => x.nombreLista).IsRequired().HasMaxLength(128);
-            
+            b.Property(x => x.nombreLista).IsRequired().HasMaxLength(128);   
         });
         
         builder.Entity<Notificacion>(b =>
@@ -201,16 +224,23 @@ public class proyectoDbContext :
             b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
             b.Property(x => x.link).IsRequired().HasMaxLength(128);
             b.Property(x => x.fecha).IsRequired();
-        
         });
 
+        builder.Entity<Notificacion>()
+             .HasOne<Alerta>(s => s.Alerta)
+             .WithMany(g => g.Notificaciones)
+             .HasForeignKey(s => s.AlertaId);
+
+        builder.Entity<Notificacion>()
+             .HasOne<Usuario>(s => s.Usuario)
+             .WithMany(g => g.Notificaciones)
+             .HasForeignKey(s => s.UsuarioId);
 
         builder.Entity<Imagen>(b =>
         {
             b.ToTable("Imagen", proyectoConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.formato).IsRequired().HasMaxLength(128);
-
         });
     }
 }
