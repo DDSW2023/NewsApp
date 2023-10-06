@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using proyecto.TemaNoticias;
 using Volo.Abp.Domain.Entities;
 
 namespace proyecto.Temas
@@ -11,5 +12,6 @@ namespace proyecto.Temas
     {
         public string nombre { get; set; }
         public string descripcion { get; set; }
+        public IList<TemaNoticia> TemaNoticias { get; set; }
     }
 }
