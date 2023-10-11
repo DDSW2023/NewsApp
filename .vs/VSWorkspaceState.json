@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\proyecto",
+    "\\proyecto\\aspnet-core",
+    "\\proyecto\\aspnet-core\\src",
+    "\\proyecto\\aspnet-core\\src\\proyecto.DbMigrator",
+    "\\proyecto\\aspnet-core\\src\\proyecto.HttpApi.Host"
   ],
+  "SelectedNode": "\\proyecto\\aspnet-core\\proyecto.sln",
   "PreviewInSolutionExplorer": false
 }
