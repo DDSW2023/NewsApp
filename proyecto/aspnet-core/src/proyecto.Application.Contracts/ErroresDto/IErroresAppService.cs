@@ -7,14 +7,14 @@ namespace proyecto.ErroresDto;
 public interface IErroresAppService : IApplicationService
 {
 
-    Task<ICollection<ErrorDto>> GetTemaAsync();
+ // Task<ICollection<ErrorDto>> GetErrorAsync();
 
-    Task<ErrorDto> GetTemaAsync(int id);
+    Task<ErrorDto> GetErrorAsync(int id);
 
-    Task<ErrorDto> CreateTemaAsync(CrearErrorDto input);
+    Task<ErrorDto> CreateErrorAsync(CrearErrorDto input);
 
-    Task<ErrorDto> UpdateTemaAsync(int id, CrearErrorDto input);
+    Task<ErrorDto> UpdateErrorAsync(int id, CrearErrorDto input);
 
-    Task<ErrorDto> DeleteTemaAsync(int id);
+    Task<ErrorDto> DeleteErrorAsync(int id);
 
 }

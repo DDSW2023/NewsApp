@@ -7,14 +7,14 @@ namespace proyecto.BusquedasDto;
 public interface IBusquedasAppService : IApplicationService
 {
 
-    Task<ICollection<BusquedaDto>> GetTemaAsync();
+    //Task<ICollection<BusquedaDto>> GetBusquedaAsync();
 
-    Task<BusquedaDto> GetTemaAsync(int id);
+    Task<BusquedaDto> GetBusquedaAsync(int id);
 
-    Task<BusquedaDto> CreateTemaAsync(CrearBusquedaDto input);
+    Task<BusquedaDto> CreateBusquedaAsync(CrearBusquedaDto input);
 
-    Task<BusquedaDto> UpdateTemaAsync(int id, CrearBusquedaDto input);
+    Task<BusquedaDto> UpdateBusquedaAsync(int id, CrearBusquedaDto input);
 
-    Task<BusquedaDto> DeleteTemaAsync(int id);
+    Task<BusquedaDto> DeleteBusquedaAsync(int id);
 
 }

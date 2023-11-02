@@ -6,14 +6,14 @@ namespace proyecto.UsuariosDto;
 
 public interface IUsuariosAppService : IApplicationService
 {
-    Task<ICollection<UsuarioDto>> GetTemaAsync();
+    Task<ICollection<UsuarioDto>> GetUsuarioAsync();
 
-    Task<UsuarioDto> GetTemaAsync(int id);
+    Task<UsuarioDto> GetUsuarioAsync(int id);
 
-    Task<UsuarioDto> CreateTemaAsync(CrearUsuarioDto input);
+    Task<UsuarioDto> CreateUsuarioAsync(CrearUsuarioDto input);
 
-    Task<UsuarioDto> UpdateTemaAsync(int id, CrearUsuarioDto input);
+    Task<UsuarioDto> UpdateUsuarioAsync(int id, CrearUsuarioDto input);
 
-    Task<UsuarioDto> DeleteTemaAsync(int id);
+    Task<UsuarioDto> DeleteUsuarioAsync(int id);
 
 }

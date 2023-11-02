@@ -7,14 +7,14 @@ namespace proyecto.NotificacionesDto;
 public interface INotificacionesAppService : IApplicationService
 {
 
-    Task<ICollection<NotificacionDto>> GetTemaAsync();
+  //Task<ICollection<NotificacionDto>> GetNotificacionAsync();
 
-    Task<NotificacionDto> GetTemaAsync(int id);
+    Task<NotificacionDto> GetNotificacionAsync(int id);
 
-    Task<NotificacionDto> CreateTemaAsync(CrearNotificacionDto input);
+    Task<NotificacionDto> CreateNotificacionAsync(CrearNotificacionDto input);
 
-    Task<NotificacionDto> UpdateTemaAsync(int id, CrearNotificacionDto input);
+    Task<NotificacionDto> UpdateNotificacionAsync(int id, CrearNotificacionDto input);
 
-    Task<NotificacionDto> DeleteTemaAsync(int id);
+    Task<NotificacionDto> DeleteNotificacionAsync(int id);
 
 }

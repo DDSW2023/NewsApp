@@ -7,14 +7,14 @@ namespace proyecto.AccesosDto;
 public interface IAccesosAppService : IApplicationService
 {
 
-    Task<ICollection<AccesoDto>> GetTemaAsync();
+    Task<ICollection<AccesoDto>> GetAccesoAsync();
 
-    Task<AccesoDto> GetTemaAsync(int id);
+    Task<AccesoDto> GetAccesoAsync(int id);
 
-    Task<AccesoDto> CreateTemaAsync(CrearAccesoDto input);
+    Task<AccesoDto> CreateAccesoAsync(CrearAccesoDto input);
 
-    Task<AccesoDto> UpdateTemaAsync(int id, CrearAccesoDto input);
+    Task<AccesoDto> UpdateAccesoAsync(int id, CrearAccesoDto input);
 
-    Task<AccesoDto> DeleteTemaAsync(int id);
+    Task<AccesoDto> DeleteAccesoAsync(int id);
 
 }

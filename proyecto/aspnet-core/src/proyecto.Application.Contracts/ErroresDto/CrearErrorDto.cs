@@ -8,9 +8,7 @@ public class CrearErrorDto : EntityDto<int>
     [Required]
     public string descripcion { get; set; }
 
-    /*
+    [Required]
     public int AccesoId { get; set; }
-    public Acceso Acceso { get; set; }
-    */
 
 }

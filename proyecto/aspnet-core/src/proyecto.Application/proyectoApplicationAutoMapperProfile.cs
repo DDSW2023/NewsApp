@@ -6,6 +6,11 @@ using proyecto.Noticias;
 using proyecto.TemaNoticias;
 using proyecto.TemaNoticiasDto;
 using proyecto.Temas;
+using proyecto.Accesos;
+using proyecto.AccesosDto;
+using proyecto.Errores;
+using proyecto.ErroresDto;
+using proyecto.Busquedas;
 
 namespace proyecto;
 
@@ -27,7 +32,13 @@ public class proyectoApplicationAutoMapperProfile : Profile
         // dtos tema noticia
         CreateMap<TemaNoticia, TemaNoticiaDto>();
 
-        
-        
+        //dtos Acceso
+        CreateMap<Acceso, AccesoDto>();
+        CreateMap<Error, ErrorDto>();
+
+        //dtos Busqueda
+       // CreateMap<Busqueda, BusquedaDto>();
+
+
     }
 }

@@ -14,4 +14,10 @@ public class CrearNotificacionDto : EntityDto<int>
 
     [Required]
     public string link { get; set; }
+
+    [Required]
+    public int UsuarioId { get; set; }
+
+    [Required]
+    public int AlertaId { get; set; }
 }

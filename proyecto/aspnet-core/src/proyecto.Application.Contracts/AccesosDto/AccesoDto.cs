@@ -10,9 +10,5 @@ public class AccesoDto : EntityDto<int>
     public TimeSpan horaInicio { get; set; }
     public TimeSpan horaFin { get; set; }
     public IList<ErrorDto> Errores { get; set; }
-
-    /*
     public int UsuarioId { get; set; }
-    public Usuario Usuario { get; set; }
-    */
 }

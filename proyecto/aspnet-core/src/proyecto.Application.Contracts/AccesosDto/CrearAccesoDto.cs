@@ -17,8 +17,6 @@ public class CrearAccesoDto : EntityDto<int>
     [Required]
     public TimeSpan horaFin { get; set; }
 
-    /*
+    [Required]
     public int UsuarioId { get; set; }
-    public Usuario Usuario { get; set; }
-    */
 }
