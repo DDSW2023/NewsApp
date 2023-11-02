@@ -8,9 +8,14 @@ using proyecto.TemaNoticiasDto;
 using proyecto.Temas;
 using proyecto.Accesos;
 using proyecto.AccesosDto;
+using proyecto.Busquedas;
+using proyecto.BusquedasDto;
 using proyecto.Errores;
 using proyecto.ErroresDto;
-using proyecto.Busquedas;
+using proyecto.Notificaciones;
+using proyecto.NotificacionesDto;
+using proyecto.Usuarios;
+using proyecto.UsuariosDto;
 
 namespace proyecto;
 
@@ -33,12 +38,26 @@ public class proyectoApplicationAutoMapperProfile : Profile
         CreateMap<TemaNoticia, TemaNoticiaDto>();
 
         //dtos Acceso
+        CreateMap<Acceso, CrearAccesoDto>();
         CreateMap<Acceso, AccesoDto>();
-        CreateMap<Error, ErrorDto>();
 
         //dtos Busqueda
-       // CreateMap<Busqueda, BusquedaDto>();
+        CreateMap<Busqueda, CrearBusquedaDto>();
+        CreateMap<Busqueda, BusquedaDto>();
 
+        //dtos Error
+        CreateMap<Error, CrearErrorDto>();
+        CreateMap<Error, ErrorDto>();
 
+        //dtos Notificacion
+        CreateMap<Notificacion, CrearNotificacionDto>();
+        CreateMap<Notificacion, NotificacionDto>();
+
+        //dtos Usuario
+        CreateMap<Usuario, CrearUsuarioDto>();
+        CreateMap<Usuario, UsuarioDto>();
+
+        //dtos Busqueda
+        // CreateMap<Busqueda, BusquedaDto>();
     }
 }

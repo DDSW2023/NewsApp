@@ -28,6 +28,7 @@ public class UsuariosAppService : proyectoAppService, IUsuariosAppService
         await _repository.InsertAsync(usuario);
         return ObjectMapper.Map<Usuario, UsuarioDto>(usuario);
     }
+
     public async Task<UsuarioDto> UpdateUsuarioAsync(int id, CrearUsuarioDto input)
     {
         var usuario = await _repository.GetAsync(id);
@@ -38,24 +39,47 @@ public class UsuariosAppService : proyectoAppService, IUsuariosAppService
         return ObjectMapper.Map<Usuario, UsuarioDto>(usuario);
     }
 
-    public async Task<ICollection<UsuarioDto>> GetUsuarioAsync()
+    //get para cada una de las listas (son 3)
+    public async Task<ICollection<UsuarioDto>> GetUsuarioAccesosAsync()
     {
         var queryUsuarios = await _repository.WithDetailsAsync(x => x.Accesos);
-        /* REVISAR Y CORREGIR
-        var queryUsuarios = await _repository.WithDetailsAsync(x => x.Busquedas);
-        var queryUsuarios = await _repository.WithDetailsAsync(x => x.Notificaciones);
-        */
         var usuarios = await AsyncExecuter.ToListAsync(queryUsuarios);
         return ObjectMapper.Map<ICollection<Usuario>, ICollection<UsuarioDto>>(usuarios);
     }
 
-    public async Task<UsuarioDto> GetUsuarioAsync(int id)
+    public async Task<ICollection<UsuarioDto>> GetUsuarioBusquedasAsync()
+    {
+        var queryUsuarios = await _repository.WithDetailsAsync(x => x.Busquedas);
+        var usuarios = await AsyncExecuter.ToListAsync(queryUsuarios);
+        return ObjectMapper.Map<ICollection<Usuario>, ICollection<UsuarioDto>>(usuarios);
+    }
+
+    public async Task<ICollection<UsuarioDto>> GetUsuarioNotificacionesAsync()
+    {
+        var queryUsuarios = await _repository.WithDetailsAsync(x => x.Notificaciones);
+        var usuarios = await AsyncExecuter.ToListAsync(queryUsuarios);
+        return ObjectMapper.Map<ICollection<Usuario>, ICollection<UsuarioDto>>(usuarios);
+    }
+
+    //get para que devuelva sólo un id (son 3)
+    public async Task<UsuarioDto> GetUsuarioAccesoAsync(int id)
     {
         var queryUsuarios = await _repository.WithDetailsAsync(x => x.Accesos);
-        /* REVISAR Y CORREGIR
+        var filtroUsuario = queryUsuarios.Where(x => x.Id == id);
+        var usuario = await AsyncExecuter.FirstOrDefaultAsync(filtroUsuario);
+        return ObjectMapper.Map<Usuario, UsuarioDto>(usuario);
+    }
+
+    public async Task<UsuarioDto> GetUsuarioBusquedaAsync(int id)
+    {
         var queryUsuarios = await _repository.WithDetailsAsync(x => x.Busquedas);
+        var filtroUsuario = queryUsuarios.Where(x => x.Id == id);
+        var usuario = await AsyncExecuter.FirstOrDefaultAsync(filtroUsuario);
+        return ObjectMapper.Map<Usuario, UsuarioDto>(usuario);
+    }
+    public async Task<UsuarioDto> GetUsuarioNotificacionAsync(int id)
+    {
         var queryUsuarios = await _repository.WithDetailsAsync(x => x.Notificaciones);
-        */
         var filtroUsuario = queryUsuarios.Where(x => x.Id == id);
         var usuario = await AsyncExecuter.FirstOrDefaultAsync(filtroUsuario);
         return ObjectMapper.Map<Usuario, UsuarioDto>(usuario);
@@ -63,11 +87,7 @@ public class UsuariosAppService : proyectoAppService, IUsuariosAppService
 
     public async Task<UsuarioDto> DeleteUsuarioAsync(int id)
     {
-        var queryUsuarios = await _repository.WithDetailsAsync(x => x.Accesos);
-        /* REVISAR Y CORREGIR
-        var queryUsuarios = await _repository.WithDetailsAsync(x => x.Busquedas);
-        var queryUsuarios = await _repository.WithDetailsAsync(x => x.Notificaciones);
-        */
+        var queryUsuarios = await _repository.WithDetailsAsync(x=> x.Accesos, y => y.Busquedas, z => z.Notificaciones);
         var filtroUsuarios = queryUsuarios.Where(x => x.Id == id);
         var usuario = await AsyncExecuter.FirstOrDefaultAsync(filtroUsuarios);
         await _repository.DeleteAsync(id);

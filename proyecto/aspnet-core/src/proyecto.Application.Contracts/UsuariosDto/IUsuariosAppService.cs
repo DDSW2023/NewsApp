@@ -6,9 +6,17 @@ namespace proyecto.UsuariosDto;
 
 public interface IUsuariosAppService : IApplicationService
 {
-    Task<ICollection<UsuarioDto>> GetUsuarioAsync();
+    Task<ICollection<UsuarioDto>> GetUsuarioAccesosAsync();
 
-    Task<UsuarioDto> GetUsuarioAsync(int id);
+    Task<ICollection<UsuarioDto>> GetUsuarioBusquedasAsync();
+
+    Task<ICollection<UsuarioDto>> GetUsuarioNotificacionesAsync();
+
+    Task<UsuarioDto> GetUsuarioAccesoAsync(int id);
+
+    Task<UsuarioDto> GetUsuarioBusquedaAsync(int id);
+
+    Task<UsuarioDto> GetUsuarioNotificacionAsync(int id);
 
     Task<UsuarioDto> CreateUsuarioAsync(CrearUsuarioDto input);
 
