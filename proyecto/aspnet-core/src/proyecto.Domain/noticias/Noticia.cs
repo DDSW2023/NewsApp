@@ -8,7 +8,6 @@ using proyecto.ListaNoticias;
 using proyecto.TemaNoticias;
 using Volo.Abp.Domain.Entities;
 
-
 namespace proyecto.noticias
 {
     public class Noticia: Entity<int>
@@ -17,6 +16,7 @@ namespace proyecto.noticias
         public string titulo { get; set; }
         public string autor { get; set; }
         public IList<ListaNoticiaItem> ListaNoticiaItem { get; set; }
+        
         public IList<TemaNoticia> TemaNoticias { get; set; }
     }
 }

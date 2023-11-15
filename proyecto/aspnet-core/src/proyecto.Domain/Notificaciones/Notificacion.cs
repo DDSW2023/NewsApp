@@ -2,6 +2,8 @@ using proyecto.Accesos;
 using proyecto.Alertas;
 using proyecto.Usuarios;
 using System;
+using proyecto.Alertas;
+using proyecto.Usuarios;
 using Volo.Abp.Domain.Entities;
 
 namespace proyecto.Notificaciones

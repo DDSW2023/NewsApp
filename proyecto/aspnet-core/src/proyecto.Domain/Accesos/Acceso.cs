@@ -1,15 +1,12 @@
-﻿using proyecto.Errores;
-using proyecto.ListaNoticiaItems;
-using proyecto.Usuarios;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices.JavaScript;
+using proyecto.Usuarios;
+using proyecto.Errores;
 using Volo.Abp.Domain.Entities;
 
-namespace proyecto.Accesos
-{
+namespace proyecto.Accesos;
+
     public class Acceso : Entity<int>
     {
         public DateTime fecha { get; set; }
@@ -19,4 +16,3 @@ namespace proyecto.Accesos
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
     }
-}
