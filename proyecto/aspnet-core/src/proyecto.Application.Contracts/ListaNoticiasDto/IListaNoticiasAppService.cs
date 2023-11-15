@@ -8,10 +8,10 @@ namespace proyecto.ListaNoticiasDto
 {
     public class IListaNoticiasAppService : IApplicationService
     {
-        Task<ICollection<ListaNoticiaDto>> GetListaNoticiaAsync(int id);
-        Task<ListaNoticiaDto> GetListaNoticiaAsync();
-        Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
-        Task<ListaNoticiaDto> UpdateListaNoticiaAsync(int id, CrearListaNoticiaDto input);
-        Task<ListaNoticiaDto> DeleteListaNoticiaAsync(int id);
+        //Task<ICollection<ListaNoticiaDto>> GetListaNoticiaAsync(int id);
+        //Task<ListaNoticiaDto> GetListaNoticiaAsync();
+        //Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
+        //Task<ListaNoticiaDto> UpdateListaNoticiaAsync(int id, CrearListaNoticiaDto input);
+        //Task<ListaNoticiaDto> DeleteListaNoticiaAsync(int id);
     }
 }
