@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace proyecto.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -371,6 +371,47 @@ namespace proyecto.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Imagen",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    formato = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Imagen", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ListaNoticias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nombreLista = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ListaNoticias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Noticias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    titulo = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    autor = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Noticias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
@@ -428,6 +469,49 @@ namespace proyecto.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OpenIddictScopes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Secciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    cuerpo = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Secciones", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Temas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nombre = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Temas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Usuario",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nombre = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    apellido = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    mail = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -663,6 +747,52 @@ namespace proyecto.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Alertas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ListaNoticiaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alertas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Alertas_ListaNoticias_ListaNoticiaId",
+                        column: x => x.ListaNoticiaId,
+                        principalTable: "ListaNoticias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ListaNoticiaItems",
+                columns: table => new
+                {
+                    ListaNoticiaId = table.Column<int>(type: "int", nullable: false),
+                    NoticiaId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ListaNoticiaItems", x => new { x.ListaNoticiaId, x.NoticiaId });
+                    table.ForeignKey(
+                        name: "FK_ListaNoticiaItems_ListaNoticias_ListaNoticiaId",
+                        column: x => x.ListaNoticiaId,
+                        principalTable: "ListaNoticias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ListaNoticiaItems_Noticias_NoticiaId",
+                        column: x => x.NoticiaId,
+                        principalTable: "Noticias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictAuthorizations",
                 columns: table => new
                 {
@@ -695,6 +825,74 @@ namespace proyecto.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TemaNoticia",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NoticiaId = table.Column<int>(type: "int", nullable: false),
+                    TemaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TemaNoticia", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TemaNoticia_Noticias_NoticiaId",
+                        column: x => x.NoticiaId,
+                        principalTable: "Noticias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TemaNoticia_Temas_TemaId",
+                        column: x => x.TemaId,
+                        principalTable: "Temas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Accesos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    horaInicio = table.Column<TimeSpan>(type: "time", nullable: false),
+                    horaFin = table.Column<TimeSpan>(type: "time", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accesos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Accesos_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Busquedas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    parametro = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Busquedas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Busquedas_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AbpEntityPropertyChanges",
                 columns: table => new
                 {
@@ -713,6 +911,35 @@ namespace proyecto.Migrations
                         name: "FK_AbpEntityPropertyChanges_AbpEntityChanges_EntityChangeId",
                         column: x => x.EntityChangeId,
                         principalTable: "AbpEntityChanges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notificaciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    link = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    AlertaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notificaciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notificaciones_Alertas_AlertaId",
+                        column: x => x.AlertaId,
+                        principalTable: "Alertas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Notificaciones_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -756,6 +983,26 @@ namespace proyecto.Migrations
                         column: x => x.AuthorizationId,
                         principalTable: "OpenIddictAuthorizations",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Errores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    AccesoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Errores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Errores_Accesos_AccesoId",
+                        column: x => x.AccesoId,
+                        principalTable: "Accesos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -951,6 +1198,41 @@ namespace proyecto.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Accesos_UsuarioId",
+                table: "Accesos",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alertas_ListaNoticiaId",
+                table: "Alertas",
+                column: "ListaNoticiaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Busquedas_UsuarioId",
+                table: "Busquedas",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Errores_AccesoId",
+                table: "Errores",
+                column: "AccesoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ListaNoticiaItems_NoticiaId",
+                table: "ListaNoticiaItems",
+                column: "NoticiaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notificaciones_AlertaId",
+                table: "Notificaciones",
+                column: "AlertaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notificaciones_UsuarioId",
+                table: "Notificaciones",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId");
@@ -979,6 +1261,16 @@ namespace proyecto.Migrations
                 name: "IX_OpenIddictTokens_ReferenceId",
                 table: "OpenIddictTokens",
                 column: "ReferenceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TemaNoticia_NoticiaId",
+                table: "TemaNoticia",
+                column: "NoticiaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TemaNoticia_TemaId",
+                table: "TemaNoticia",
+                column: "TemaId");
         }
 
         /// <inheritdoc />
@@ -1051,10 +1343,31 @@ namespace proyecto.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Busquedas");
+
+            migrationBuilder.DropTable(
+                name: "Errores");
+
+            migrationBuilder.DropTable(
+                name: "Imagen");
+
+            migrationBuilder.DropTable(
+                name: "ListaNoticiaItems");
+
+            migrationBuilder.DropTable(
+                name: "Notificaciones");
+
+            migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictTokens");
+
+            migrationBuilder.DropTable(
+                name: "Secciones");
+
+            migrationBuilder.DropTable(
+                name: "TemaNoticia");
 
             migrationBuilder.DropTable(
                 name: "AbpEntityChanges");
@@ -1072,10 +1385,28 @@ namespace proyecto.Migrations
                 name: "AbpUsers");
 
             migrationBuilder.DropTable(
+                name: "Accesos");
+
+            migrationBuilder.DropTable(
+                name: "Alertas");
+
+            migrationBuilder.DropTable(
                 name: "OpenIddictAuthorizations");
 
             migrationBuilder.DropTable(
+                name: "Noticias");
+
+            migrationBuilder.DropTable(
+                name: "Temas");
+
+            migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
+
+            migrationBuilder.DropTable(
+                name: "Usuario");
+
+            migrationBuilder.DropTable(
+                name: "ListaNoticias");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");

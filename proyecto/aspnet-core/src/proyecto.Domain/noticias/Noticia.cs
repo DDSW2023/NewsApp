@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using proyecto.ListaNoticiaItems;
 using proyecto.ListaNoticias;
 using proyecto.TemaNoticias;
+using proyecto.Temas;
 using Volo.Abp.Domain.Entities;
 
 namespace proyecto.noticias
@@ -17,6 +18,13 @@ namespace proyecto.noticias
         public string autor { get; set; }
         public IList<ListaNoticiaItem> ListaNoticiaItem { get; set; }
         
-        public IList<TemaNoticia> TemaNoticias { get; set; }
+        public int TemaId { get; set; }
+        public Tema Tema { get; set; }
+        
+        public IList<Noticia> ListaNoticia { get; set; }
+        
+        public int NoticiaId { get; set; }
+        public Noticia Noticia1 { get; set; }
+
     }
 }

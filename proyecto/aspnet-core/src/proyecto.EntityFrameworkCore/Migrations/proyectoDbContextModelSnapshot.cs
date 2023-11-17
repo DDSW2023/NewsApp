@@ -1891,24 +1891,6 @@ namespace proyecto.Migrations
                     b.ToTable("Seccion", (string)null);
                 });
 
-            modelBuilder.Entity("proyecto.TemaNoticias.TemaNoticia", b =>
-                {
-                    b.Property<int>("NoticiaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TemaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("NoticiaId", "TemaId");
-
-                    b.HasIndex("TemaId");
-
-                    b.ToTable("TemaNoticias");
-                });
-
             modelBuilder.Entity("proyecto.Temas.Tema", b =>
                 {
                     b.Property<int>("Id")
@@ -1968,6 +1950,12 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("NoticiaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TemaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("autor")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -1982,6 +1970,10 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NoticiaId");
+
+                    b.HasIndex("TemaId");
 
                     b.ToTable("Noticias", (string)null);
                 });
@@ -2210,21 +2202,21 @@ namespace proyecto.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("proyecto.TemaNoticias.TemaNoticia", b =>
+            modelBuilder.Entity("proyecto.noticias.Noticia", b =>
                 {
-                    b.HasOne("proyecto.noticias.Noticia", "Noticia")
-                        .WithMany("TemaNoticias")
+                    b.HasOne("proyecto.noticias.Noticia", "Noticia1")
+                        .WithMany("ListaNoticia")
                         .HasForeignKey("NoticiaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("proyecto.Temas.Tema", "Tema")
-                        .WithMany("TemaNoticias")
+                        .WithMany("listaNoticias")
                         .HasForeignKey("TemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Noticia");
+                    b.Navigation("Noticia1");
 
                     b.Navigation("Tema");
                 });
@@ -2288,7 +2280,7 @@ namespace proyecto.Migrations
 
             modelBuilder.Entity("proyecto.Temas.Tema", b =>
                 {
-                    b.Navigation("TemaNoticias");
+                    b.Navigation("listaNoticias");
                 });
 
             modelBuilder.Entity("proyecto.Usuarios.Usuario", b =>
@@ -2302,9 +2294,9 @@ namespace proyecto.Migrations
 
             modelBuilder.Entity("proyecto.noticias.Noticia", b =>
                 {
-                    b.Navigation("ListaNoticiaItem");
+                    b.Navigation("ListaNoticia");
 
-                    b.Navigation("TemaNoticias");
+                    b.Navigation("ListaNoticiaItem");
                 });
 #pragma warning restore 612, 618
         }

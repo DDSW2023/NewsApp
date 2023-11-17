@@ -13,8 +13,8 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    [Migration("20230927135007_create-tablas")]
-    partial class createtablas
+    [Migration("20231116015037_temaNoticias")]
+    partial class temaNoticias
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1683,6 +1683,268 @@ namespace proyecto.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("proyecto.Accesos.Acceso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("horaFin")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("horaInicio")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Accesos", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.Alertas.Alerta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ListaNoticiaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime>("fecha")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ListaNoticiaId");
+
+                    b.ToTable("Alertas", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.Busquedas.Busqueda", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("parametro")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Busquedas", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.Errores.Error", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccesoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccesoId");
+
+                    b.ToTable("Errores", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.Imagenes.Imagen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("formato")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Imagen", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.ListaNoticiaItems.ListaNoticiaItem", b =>
+                {
+                    b.Property<int>("ListaNoticiaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoticiaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ListaNoticiaId", "NoticiaId");
+
+                    b.HasIndex("NoticiaId");
+
+                    b.ToTable("ListaNoticiaItems");
+                });
+
+            modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("nombreLista")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ListaNoticias", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.Notificaciones.Notificacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AlertaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<DateTime>("fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("link")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlertaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Notificaciones", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.Secciones.Seccion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("cuerpo")
+                        .HasMaxLength(128)
+                        .HasColumnType("int");
+
+                    b.Property<string>("titulo")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Seccion", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.Temas.Tema", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("nombre")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Temas", (string)null);
+                });
+
+            modelBuilder.Entity("proyecto.Usuarios.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("apellido")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("mail")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("nombre")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuario", (string)null);
+                });
+
             modelBuilder.Entity("proyecto.noticias.Noticia", b =>
                 {
                     b.Property<int>("Id")
@@ -1691,17 +1953,10 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("TemaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("autor")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("cuerpo")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("encabezado")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -1715,6 +1970,8 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TemaId");
 
                     b.ToTable("Noticias", (string)null);
                 });
@@ -1861,6 +2118,99 @@ namespace proyecto.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("proyecto.Accesos.Acceso", b =>
+                {
+                    b.HasOne("proyecto.Usuarios.Usuario", "Usuario")
+                        .WithMany("Accesos")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("proyecto.Alertas.Alerta", b =>
+                {
+                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
+                        .WithMany("Alertas")
+                        .HasForeignKey("ListaNoticiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ListaNoticia");
+                });
+
+            modelBuilder.Entity("proyecto.Busquedas.Busqueda", b =>
+                {
+                    b.HasOne("proyecto.Usuarios.Usuario", "Usuario")
+                        .WithMany("Busquedas")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("proyecto.Errores.Error", b =>
+                {
+                    b.HasOne("proyecto.Accesos.Acceso", "Acceso")
+                        .WithMany("Errores")
+                        .HasForeignKey("AccesoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Acceso");
+                });
+
+            modelBuilder.Entity("proyecto.ListaNoticiaItems.ListaNoticiaItem", b =>
+                {
+                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
+                        .WithMany("ListaNoticiaItem")
+                        .HasForeignKey("ListaNoticiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("proyecto.noticias.Noticia", "Noticia")
+                        .WithMany("ListaNoticiaItem")
+                        .HasForeignKey("NoticiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ListaNoticia");
+
+                    b.Navigation("Noticia");
+                });
+
+            modelBuilder.Entity("proyecto.Notificaciones.Notificacion", b =>
+                {
+                    b.HasOne("proyecto.Alertas.Alerta", "Alerta")
+                        .WithMany("Notificaciones")
+                        .HasForeignKey("AlertaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("proyecto.Usuarios.Usuario", "Usuario")
+                        .WithMany("Notificaciones")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Alerta");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("proyecto.noticias.Noticia", b =>
+                {
+                    b.HasOne("proyecto.Temas.Tema", "Tema")
+                        .WithMany("listaNoticias")
+                        .HasForeignKey("TemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tema");
+                });
+
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
                 {
                     b.Navigation("Actions");
@@ -1899,6 +2249,42 @@ namespace proyecto.Migrations
             modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
                 {
                     b.Navigation("ConnectionStrings");
+                });
+
+            modelBuilder.Entity("proyecto.Accesos.Acceso", b =>
+                {
+                    b.Navigation("Errores");
+                });
+
+            modelBuilder.Entity("proyecto.Alertas.Alerta", b =>
+                {
+                    b.Navigation("Notificaciones");
+                });
+
+            modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
+                {
+                    b.Navigation("Alertas");
+
+                    b.Navigation("ListaNoticiaItem");
+                });
+
+            modelBuilder.Entity("proyecto.Temas.Tema", b =>
+                {
+                    b.Navigation("listaNoticias");
+                });
+
+            modelBuilder.Entity("proyecto.Usuarios.Usuario", b =>
+                {
+                    b.Navigation("Accesos");
+
+                    b.Navigation("Busquedas");
+
+                    b.Navigation("Notificaciones");
+                });
+
+            modelBuilder.Entity("proyecto.noticias.Noticia", b =>
+                {
+                    b.Navigation("ListaNoticiaItem");
                 });
 #pragma warning restore 612, 618
         }

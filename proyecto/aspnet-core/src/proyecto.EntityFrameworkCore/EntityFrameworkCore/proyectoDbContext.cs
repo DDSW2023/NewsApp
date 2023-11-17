@@ -10,7 +10,6 @@ using proyecto.Notificaciones;
 using proyecto.Temas;
 using proyecto.Secciones;
 using proyecto.Imagenes;
-using proyecto.TemaNoticias;
 using proyecto.Usuarios;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -73,7 +72,6 @@ public class proyectoDbContext :
     public DbSet<ListaNoticia> ListaNoticias { get; set; }
     public DbSet<Notificacion> Notificaciones { get; set; }
     public DbSet<ListaNoticiaItem> ListaNoticiaItems { get; set; }
-    public DbSet<TemaNoticia> TemaNoticias { get; set; }
     public DbSet<Error> Errores { get; set; }
     public DbSet<Busqueda> Busquedas { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
@@ -124,6 +122,13 @@ public class proyectoDbContext :
             b.Property(x => x.autor).IsRequired().HasMaxLength(128);
             
         });
+        
+        
+        builder.Entity<Noticia>()
+            .HasMany<Noticia>(g => g.ListaNoticia)
+            .WithOne(s => s.Noticia1)
+            .HasForeignKey(s => s.NoticiaId)
+            .IsRequired();
 
         #endregion
 
@@ -201,31 +206,20 @@ public class proyectoDbContext :
             b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
 
         });
-
-        #endregion
-
-        #region TemaNoticia
-
-        builder.Entity<TemaNoticia>().HasKey(sc => new { sc.NoticiaId, sc.TemaId });
-
-        builder.Entity<TemaNoticia>()
-            .HasOne<Tema>(sc => sc.Tema)
-            .WithMany(s => s.TemaNoticias)
-            .HasForeignKey(sc => sc.TemaId);
-
-        builder.Entity<TemaNoticia>()
-            .HasOne<Noticia>(sc => sc.Noticia)
-            .WithMany(s => s.TemaNoticias)
-            .HasForeignKey(sc => sc.NoticiaId);
-
-        #endregion
         
+       builder.Entity<Tema>()
+           .HasMany<Noticia>(g => g.listaNoticias)
+           .WithOne(s => s.Tema)
+           .HasForeignKey(s => s.TemaId)
+           .IsRequired();
+
+        #endregion
+
         #region Seccion
 
-        // Builder Clase Seccion
+         // Builder Clase Seccion
         builder.Entity<Seccion>(b => 
-        {
-            b.ToTable("Seccion", proyectoConsts.DbSchema);
+        { b.ToTable("Seccion", proyectoConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.titulo).IsRequired().HasMaxLength(128);
             b.Property(x => x.cuerpo).IsRequired().HasMaxLength(128);
