@@ -13,8 +13,8 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    [Migration("20231116015709_noticiaRelation")]
-    partial class noticiaRelation
+    [Migration("20231122210319_migracionListaNoticias1")]
+    partial class migracionListaNoticias1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1826,12 +1826,17 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ListaNoticiaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("nombreLista")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ListaNoticiaId");
 
                     b.ToTable("ListaNoticias", (string)null);
                 });
@@ -1953,8 +1958,9 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("NoticiaId")
-                        .HasColumnType("int");
+                    b.Property<string>("Contenido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TemaId")
                         .HasColumnType("int");
@@ -1964,6 +1970,10 @@ namespace proyecto.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("fecha")
                         .HasColumnType("datetime2");
 
@@ -1972,9 +1982,15 @@ namespace proyecto.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("NoticiaId");
+                    b.Property<string>("urlImagen")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("TemaId");
 
@@ -2186,6 +2202,17 @@ namespace proyecto.Migrations
                     b.Navigation("Noticia");
                 });
 
+            modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
+                {
+                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia1")
+                        .WithMany("listaListaNoticia")
+                        .HasForeignKey("ListaNoticiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ListaNoticia1");
+                });
+
             modelBuilder.Entity("proyecto.Notificaciones.Notificacion", b =>
                 {
                     b.HasOne("proyecto.Alertas.Alerta", "Alerta")
@@ -2207,19 +2234,11 @@ namespace proyecto.Migrations
 
             modelBuilder.Entity("proyecto.noticias.Noticia", b =>
                 {
-                    b.HasOne("proyecto.noticias.Noticia", "Noticia1")
-                        .WithMany("ListaNoticia")
-                        .HasForeignKey("NoticiaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("proyecto.Temas.Tema", "Tema")
                         .WithMany("listaNoticias")
                         .HasForeignKey("TemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Noticia1");
 
                     b.Navigation("Tema");
                 });
@@ -2279,6 +2298,8 @@ namespace proyecto.Migrations
                     b.Navigation("Alertas");
 
                     b.Navigation("ListaNoticiaItem");
+
+                    b.Navigation("listaListaNoticia");
                 });
 
             modelBuilder.Entity("proyecto.Temas.Tema", b =>
@@ -2297,8 +2318,6 @@ namespace proyecto.Migrations
 
             modelBuilder.Entity("proyecto.noticias.Noticia", b =>
                 {
-                    b.Navigation("ListaNoticia");
-
                     b.Navigation("ListaNoticiaItem");
                 });
 #pragma warning restore 612, 618

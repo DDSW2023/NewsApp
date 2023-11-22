@@ -18,7 +18,7 @@ public class TemasAppService : proyectoAppService, ITemasAppService
     
     public async Task<ICollection<TemaDto>> GetTemaAsync()
     {
-        var queryTemas = await _repository.WithDetailsAsync(x => x.TemaNoticias);
+        var queryTemas = await _repository.WithDetailsAsync(x => x.listaNoticias);
 
         var temas = await AsyncExecuter.ToListAsync(queryTemas);
 
@@ -27,7 +27,7 @@ public class TemasAppService : proyectoAppService, ITemasAppService
 
     public async Task<TemaDto> GetTemaAsync(int id)
     {
-        var queryTemas = await _repository.WithDetailsAsync(x => x.TemaNoticias);
+        var queryTemas = await _repository.WithDetailsAsync(x => x.listaNoticias);
 
         var filtroTema = queryTemas.Where(x => x.Id == id);
 
@@ -65,7 +65,7 @@ public class TemasAppService : proyectoAppService, ITemasAppService
 
     public async Task<TemaDto> DeleteTemaAsync(int id)
     {
-        var queryTemas = await _repository.WithDetailsAsync(x => x.TemaNoticias);
+        var queryTemas = await _repository.WithDetailsAsync(x => x.listaNoticias);
 
         var filtroTemas = queryTemas.Where(x => x.Id == id);
         

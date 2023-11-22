@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace proyecto.Noticias
+namespace proyecto.Noticias;
+
+public interface INoticiasAppService
 {
-    public interface INoticiasAppService
-    {
-        Task<ICollection<NoticiaDto>> Search(string query);
-    }
+    Task<ICollection<ArticuloDto>> Search(string query);
 }

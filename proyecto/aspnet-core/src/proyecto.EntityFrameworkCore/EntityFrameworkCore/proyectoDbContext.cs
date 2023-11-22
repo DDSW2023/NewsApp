@@ -122,13 +122,6 @@ public class proyectoDbContext :
             b.Property(x => x.autor).IsRequired().HasMaxLength(128);
             
         });
-        
-        
-        builder.Entity<Noticia>()
-            .HasMany<Noticia>(g => g.ListaNoticia)
-            .WithOne(s => s.Noticia1)
-            .HasForeignKey(s => s.NoticiaId)
-            .IsRequired();
 
         #endregion
 
@@ -275,6 +268,11 @@ public class proyectoDbContext :
             b.Property(x => x.nombreLista).IsRequired().HasMaxLength(128);
             
         });
+        
+        builder.Entity<ListaNoticia>()
+            .HasOne<ListaNoticia>(sc => sc.ListaNoticia1)
+            .WithMany(s => s.listaListaNoticia)
+            .HasForeignKey(sc => sc.ListaNoticiaId);
 
         #endregion
 

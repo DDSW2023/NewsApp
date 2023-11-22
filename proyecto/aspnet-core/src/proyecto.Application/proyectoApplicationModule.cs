@@ -1,4 +1,7 @@
-﻿using Volo.Abp.Account;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NewsApp.News;
+using proyecto.noticias;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -27,5 +30,8 @@ public class proyectoApplicationModule : AbpModule
         {
             options.AddMaps<proyectoApplicationModule>();
         });
+        
+        context.Services.AddTransient<INoticiasService, NoticiasApiService>();
+
     }
 }
