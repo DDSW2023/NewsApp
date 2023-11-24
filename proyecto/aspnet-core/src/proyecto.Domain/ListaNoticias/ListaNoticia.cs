@@ -14,5 +14,10 @@ namespace proyecto.ListaNoticias
         public String nombreLista { get; set; }
         public IList<ListaNoticiaItem> ListaNoticiaItem { get; set; }
         public ICollection<Alerta> Alertas { get; set; }
+        
+        public IList<ListaNoticia> listaListaNoticia { get; set; }
+        
+        public int ListaNoticiaId { get; set; }
+        public ListaNoticia ListaNoticia1 { get; set; }
     }
 }

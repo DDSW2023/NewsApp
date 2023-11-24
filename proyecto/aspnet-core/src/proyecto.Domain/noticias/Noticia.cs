@@ -16,15 +16,21 @@ namespace proyecto.noticias
         public DateTime fecha { get; set; }
         public string titulo { get; set; }
         public string autor { get; set; }
+        
+        public string descripcion { get; set; }
+        
+        public string url { get; set; }
+        
+        public string urlImagen { get; set; }
+        
+        public string Contenido { get; set; }
+
         public IList<ListaNoticiaItem> ListaNoticiaItem { get; set; }
         
         public int TemaId { get; set; }
         public Tema Tema { get; set; }
         
-        public IList<Noticia> ListaNoticia { get; set; }
-        
-        public int NoticiaId { get; set; }
-        public Noticia Noticia1 { get; set; }
+
 
     }
 }
