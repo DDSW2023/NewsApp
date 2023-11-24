@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace proyecto.noticias
+namespace NewsApp.News
 {
-    internal class INoticiasService
+    public interface INewsService
     {
+        Task<ICollection<ArticuloDto>> GetNewsAsync(string query);
     }
 }
