@@ -6,10 +6,10 @@ using Volo.Abp.Application.Services;
 
 namespace proyecto.ListaNoticiasDto
 {
-    public class IListaNoticiasAppService : IApplicationService
+    public interface IListaNoticiasAppService : IApplicationService
     {
         //Task<ICollection<ListaNoticiaDto>> GetListaNoticiaAsync(int id);
-        //Task<ListaNoticiaDto> GetListaNoticiaAsync();
+        Task<ListaNoticiaDto> CreateListaNoticiaAsync(string query);
         //Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
         //Task<ListaNoticiaDto> UpdateListaNoticiaAsync(int id, CrearListaNoticiaDto input);
         //Task<ListaNoticiaDto> DeleteListaNoticiaAsync(int id);

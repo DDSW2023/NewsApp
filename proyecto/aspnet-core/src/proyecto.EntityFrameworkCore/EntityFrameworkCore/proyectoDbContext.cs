@@ -7,9 +7,6 @@ using proyecto.ListaNoticiaItems;
 using proyecto.ListaNoticias;
 using proyecto.noticias;
 using proyecto.Notificaciones;
-using proyecto.Temas;
-using proyecto.Secciones;
-using proyecto.Imagenes;
 using proyecto.Usuarios;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -76,9 +73,7 @@ public class proyectoDbContext :
     public DbSet<Busqueda> Busquedas { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Acceso> Accesos { get; set; }
-    public DbSet<Tema> Temas { get; set; }
-    public DbSet<Seccion> Secciones { get; set; }
-    public DbSet<Imagen> Imagenes { get; set; }
+
     
     public proyectoDbContext(DbContextOptions<proyectoDbContext> options)
         : base(options)
@@ -188,38 +183,8 @@ public class proyectoDbContext :
 
         #endregion
         
-        #region Tema
 
-        // Builder clase Tema 
-        builder.Entity<Tema>(b =>
-        {
-            b.ToTable("Temas", proyectoConsts.DbSchema);
-            b.ConfigureByConvention();
-            b.Property(x => x.nombre).IsRequired().HasMaxLength(128);
-            b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
 
-        });
-        
-       builder.Entity<Tema>()
-           .HasMany<Noticia>(g => g.listaNoticias)
-           .WithOne(s => s.Tema)
-           .HasForeignKey(s => s.TemaId)
-           .IsRequired();
-
-        #endregion
-
-        #region Seccion
-
-         // Builder Clase Seccion
-        builder.Entity<Seccion>(b => 
-        { b.ToTable("Seccion", proyectoConsts.DbSchema);
-            b.ConfigureByConvention();
-            b.Property(x => x.titulo).IsRequired().HasMaxLength(128);
-            b.Property(x => x.cuerpo).IsRequired().HasMaxLength(128);
-             
-        });
-
-        #endregion
 
         #region Alerta
 
@@ -266,13 +231,9 @@ public class proyectoDbContext :
             b.ToTable("ListaNoticias", proyectoConsts.DbSchema);
             b.ConfigureByConvention(); 
             b.Property(x => x.nombreLista).IsRequired().HasMaxLength(128);
+            b.Property(x => x.ParentId).IsRequired().HasMaxLength(128);
             
         });
-        
-        builder.Entity<ListaNoticia>()
-            .HasOne<ListaNoticia>(sc => sc.ListaNoticia1)
-            .WithMany(s => s.listaListaNoticia)
-            .HasForeignKey(sc => sc.ListaNoticiaId);
 
         #endregion
 
@@ -299,20 +260,6 @@ public class proyectoDbContext :
             .HasForeignKey(s => s.UsuarioId);
 
         #endregion
-
-        #region Imagen
-
-        // Builder Clase Imagen
-        builder.Entity<Imagen>(b =>
-        {
-            b.ToTable("Imagen", proyectoConsts.DbSchema);
-            b.ConfigureByConvention();
-            b.Property(x => x.formato).IsRequired().HasMaxLength(128);
-
-        });
-
-        #endregion
-
         
     }
 }
