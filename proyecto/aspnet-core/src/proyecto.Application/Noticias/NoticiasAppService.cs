@@ -36,7 +36,9 @@ public class NoticiasAppService : proyectoAppService, INoticiasAppService
             autor = noticia.autor,
             url = noticia.url,
             urlImagen = noticia.urlImagen,
-            Contenido = noticia.Contenido
+            Contenido = noticia.Contenido,
+            tema = noticia.tema,
+            ListaNoticiasId = noticia.ListaNoticiasId
         };
                 
         await _repository.InsertAsync(noti);

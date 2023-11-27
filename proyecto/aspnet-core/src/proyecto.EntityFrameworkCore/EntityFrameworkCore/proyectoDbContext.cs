@@ -113,6 +113,11 @@ public class proyectoDbContext :
             b.Property(x => x.fecha).IsRequired();
             b.Property(x => x.titulo).IsRequired().HasMaxLength(128);
             b.Property(x => x.autor).IsRequired().HasMaxLength(128);
+            b.Property(x => x.descripcion).IsRequired().HasMaxLength(128);
+            b.Property(x => x.url).IsRequired().HasMaxLength(128);
+            b.Property(x => x.urlImagen).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Contenido).IsRequired().HasMaxLength(128);
+            b.Property(x => x.tema).IsRequired().HasMaxLength(128);
             
         });
 
