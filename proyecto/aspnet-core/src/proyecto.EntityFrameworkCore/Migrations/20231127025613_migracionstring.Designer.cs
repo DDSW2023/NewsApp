@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using proyecto.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    partial class proyectoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127025613_migracionstring")]
+    partial class migracionstring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1875,10 +1878,10 @@ namespace proyecto.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Contenido")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ListaNoticiasId")
-                        .IsRequired()
+                    b.Property<int>("ListaNoticiasId")
                         .HasColumnType("int");
 
                     b.Property<string>("autor")
@@ -1887,6 +1890,7 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("descripcion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("fecha")
@@ -1894,6 +1898,7 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("tema")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("titulo")
@@ -1902,9 +1907,11 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("url")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("urlImagen")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

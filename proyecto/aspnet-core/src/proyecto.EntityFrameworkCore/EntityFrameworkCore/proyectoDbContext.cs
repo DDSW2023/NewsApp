@@ -3,7 +3,6 @@ using proyecto.Accesos;
 using proyecto.Alertas;
 using proyecto.Busquedas;
 using proyecto.Errores;
-using proyecto.ListaNoticiaItems;
 using proyecto.ListaNoticias;
 using proyecto.noticias;
 using proyecto.Notificaciones;
@@ -68,7 +67,6 @@ public class proyectoDbContext :
     public DbSet<Alerta> Alertas { get; set; }
     public DbSet<ListaNoticia> ListaNoticias { get; set; }
     public DbSet<Notificacion> Notificaciones { get; set; }
-    public DbSet<ListaNoticiaItem> ListaNoticiaItems { get; set; }
     public DbSet<Error> Errores { get; set; }
     public DbSet<Busqueda> Busquedas { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
@@ -202,27 +200,8 @@ public class proyectoDbContext :
             .HasForeignKey(s => s.ListaNoticiaId);
 
         #endregion
-
-        #region ListaNoticiaItem
-
-        // Keys de Lista Noticia Item
-        builder.Entity<ListaNoticiaItem>().HasKey(sc => new { sc.ListaNoticiaId, sc.NoticiaId });
         
-        // Relacion con ListaNoticia
-        builder.Entity<ListaNoticiaItem>()
-            .HasOne<ListaNoticia>(sc => sc.ListaNoticia)
-            .WithMany(s => s.ListaNoticiaItem)
-            .HasForeignKey(sc => sc.ListaNoticiaId);
-
-        // Relacion con Noticia
-        builder.Entity<ListaNoticiaItem>()
-            .HasOne<Noticia>(sc => sc.Noticia)
-            .WithMany(s => s.ListaNoticiaItem)
-            .HasForeignKey(sc => sc.NoticiaId);
-
-
-        #endregion
-
+        
         #region ListaNoticia
 
         // Builder Clase ListaNoticia
@@ -234,6 +213,12 @@ public class proyectoDbContext :
             b.Property(x => x.ParentId).IsRequired().HasMaxLength(128);
             
         });
+        
+        builder.Entity<ListaNoticia>()
+            .HasMany<Noticia>(g => g.ListaNoticias)
+            .WithOne(s => s.ListaNoticia)
+            .HasForeignKey(s => s.ListaNoticiasId)
+            .IsRequired();
 
         #endregion
 

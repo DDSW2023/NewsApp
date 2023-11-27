@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using proyecto.Alertas;
-using proyecto.ListaNoticiaItems;
 using proyecto.ListaNoticiaItemsDto;
 using proyecto.noticias;
 using proyecto.Noticias;
@@ -19,12 +18,16 @@ public class proyectoApplicationAutoMapperProfile : Profile
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
         CreateMap<Noticia, NoticiaDto>();
-        CreateMap<ListaNoticiaItem, ListaNoticiaItemDto>();
+        
+        CreateMap<Noticia, ArticuloDto>();
+
 
         //dtos alerta
         CreateMap<Alerta, CrearAlertaDto>();
         CreateMap<Alerta, AlertaDto>();
-
+        
+        CreateMap<CrearNoticiasDto, Noticia>();
+        
         //dtos ListaNoticia
         CreateMap<ListaNoticia, ListaNoticiaDto>();
         CreateMap<ListaNoticia, CrearListaNoticiaDto>();
