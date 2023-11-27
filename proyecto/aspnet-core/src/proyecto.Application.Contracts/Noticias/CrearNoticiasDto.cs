@@ -6,7 +6,7 @@ namespace proyecto.Noticias;
 
 public class CrearNoticiasDto : EntityDto<int>
 {
-    [Required] public string? fecha { get; set; }
+    [Required] public DateTime? fecha { get; set; }
     [Required] public string? titulo { get; set; }
     [Required] public string? autor { get; set; }
     [Required] public string? descripcion { get; set; }
