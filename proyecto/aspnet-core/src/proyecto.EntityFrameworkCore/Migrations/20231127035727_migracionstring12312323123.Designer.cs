@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using proyecto.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    partial class proyectoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127035727_migracionstring12312323123")]
+    partial class migracionstring12312323123
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1787,11 +1790,10 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ListaNoticiaId")
+                    b.Property<int?>("ParentId")
+                        .IsRequired()
+                        .HasMaxLength(128)
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("nombreLista")
                         .IsRequired()
@@ -1799,10 +1801,6 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ListaNoticiaId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ListaNoticias", (string)null);
                 });
@@ -1884,10 +1882,8 @@ namespace proyecto.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int?>("ListaNoticiaId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("ListaNoticiasId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("autor")
@@ -1900,9 +1896,9 @@ namespace proyecto.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("fecha")
+                    b.Property<DateTime?>("fecha")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("tema")
                         .IsRequired()
@@ -1926,7 +1922,7 @@ namespace proyecto.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ListaNoticiaId");
+                    b.HasIndex("ListaNoticiasId");
 
                     b.ToTable("Noticias", (string)null);
                 });
@@ -2117,19 +2113,6 @@ namespace proyecto.Migrations
                     b.Navigation("Acceso");
                 });
 
-            modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
-                {
-                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", null)
-                        .WithMany("Listas")
-                        .HasForeignKey("ListaNoticiaId");
-
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("proyecto.Notificaciones.Notificacion", b =>
                 {
                     b.HasOne("proyecto.Alertas.Alerta", "Alerta")
@@ -2153,7 +2136,9 @@ namespace proyecto.Migrations
                 {
                     b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
                         .WithMany("ListaNoticias")
-                        .HasForeignKey("ListaNoticiaId");
+                        .HasForeignKey("ListaNoticiasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ListaNoticia");
                 });
@@ -2213,8 +2198,6 @@ namespace proyecto.Migrations
                     b.Navigation("Alertas");
 
                     b.Navigation("ListaNoticias");
-
-                    b.Navigation("Listas");
                 });
 
             modelBuilder.Entity("proyecto.Usuarios.Usuario", b =>

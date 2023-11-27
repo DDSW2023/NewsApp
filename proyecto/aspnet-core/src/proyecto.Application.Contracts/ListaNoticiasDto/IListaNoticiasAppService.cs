@@ -10,7 +10,16 @@ namespace proyecto.ListaNoticiasDto
     public interface IListaNoticiasAppService : IApplicationService
     {
         //Task<ICollection<ListaNoticiaDto>> GetListaNoticiaAsync(int id);
-        public Task<ListaNoticiaDto> CreateListaNoticiaAsync(string query, int parentId, NoticiaDto noticiaDto);
+
+        public Task<ICollection<ListaNoticiaDto>> GetThemesAsync();
+
+        public Task<ListaNoticiaDto> GetThemesAsync(int id);
+        
+        public Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
+        
+        
+        public Task<ListaNoticiaDto> DeleteListaNoticiaAsync(CrearListaNoticiaDto input);
+        
         //Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
         //Task<ListaNoticiaDto> UpdateListaNoticiaAsync(int id, CrearListaNoticiaDto input);
         //Task<ListaNoticiaDto> DeleteListaNoticiaAsync(int id);
