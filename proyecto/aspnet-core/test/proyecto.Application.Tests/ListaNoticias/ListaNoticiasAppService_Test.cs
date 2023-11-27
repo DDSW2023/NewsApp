@@ -26,10 +26,10 @@ namespace proyecto.ListaNoticias
         }
 
         [Fact]
-        public async Task Should_Get_All_Themes()
+        public async Task Should_Get_All_ListaNoticias()
         {
             //Act
-            var listaNoticias = await _listaNoticiasAppService.GetThemesAsync();
+            var listaNoticias = await _listaNoticiasAppService.GetListasAsync();
             //Assert
             listaNoticias.ShouldNotBeNull();
             listaNoticias.Count.ShouldBeGreaterThan(1);

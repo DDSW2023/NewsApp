@@ -4,8 +4,10 @@
     "\\proyecto",
     "\\proyecto\\aspnet-core",
     "\\proyecto\\aspnet-core\\src",
-    "\\proyecto\\aspnet-core\\src\\proyecto.DbMigrator",
-    "\\proyecto\\aspnet-core\\src\\proyecto.HttpApi.Host"
+    "\\proyecto\\aspnet-core\\src\\proyecto.Application",
+    "\\proyecto\\aspnet-core\\src\\proyecto.Application\\Alertas",
+    "\\proyecto\\aspnet-core\\src\\proyecto.Application\\ListaNoticias",
+    "\\proyecto\\aspnet-core\\src\\proyecto.EntityFrameworkCore"
   ],
   "SelectedNode": "\\proyecto\\aspnet-core\\proyecto.sln",
   "PreviewInSolutionExplorer": false

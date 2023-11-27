@@ -11,9 +11,9 @@ namespace proyecto.ListaNoticiasDto
     {
         //Task<ICollection<ListaNoticiaDto>> GetListaNoticiaAsync(int id);
 
-        public Task<ICollection<ListaNoticiaDto>> GetThemesAsync();
+        public Task<ICollection<ListaNoticiaDto>> GetListasAsync();
 
-        public Task<ListaNoticiaDto> GetThemesAsync(int id);
+        public Task<ListaNoticiaDto> GetListasAsync(int id);
         
         public Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
         
