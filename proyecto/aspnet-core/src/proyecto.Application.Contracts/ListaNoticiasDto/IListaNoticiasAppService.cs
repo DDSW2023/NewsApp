@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using proyecto.Noticias;
 using Volo.Abp.Application.Services;
 
 namespace proyecto.ListaNoticiasDto
 {
-    public class IListaNoticiasAppService : IApplicationService
+    public interface IListaNoticiasAppService : IApplicationService
     {
         //Task<ICollection<ListaNoticiaDto>> GetListaNoticiaAsync(int id);
-        //Task<ListaNoticiaDto> GetListaNoticiaAsync();
+        public Task<ListaNoticiaDto> CreateListaNoticiaAsync(string query, int parentId, NoticiaDto noticiaDto);
         //Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
         //Task<ListaNoticiaDto> UpdateListaNoticiaAsync(int id, CrearListaNoticiaDto input);
         //Task<ListaNoticiaDto> DeleteListaNoticiaAsync(int id);

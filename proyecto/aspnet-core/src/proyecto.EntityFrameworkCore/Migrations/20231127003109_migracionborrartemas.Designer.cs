@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using proyecto.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    partial class proyectoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127003109_migracionborrartemas")]
+    partial class migracionborrartemas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1779,6 +1782,24 @@ namespace proyecto.Migrations
                     b.ToTable("Errores", (string)null);
                 });
 
+            modelBuilder.Entity("proyecto.ListaNoticiaItems.ListaNoticiaItem", b =>
+                {
+                    b.Property<int>("ListaNoticiaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoticiaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ListaNoticiaId", "NoticiaId");
+
+                    b.HasIndex("NoticiaId");
+
+                    b.ToTable("ListaNoticiaItems");
+                });
+
             modelBuilder.Entity("proyecto.ListaNoticias.ListaNoticia", b =>
                 {
                     b.Property<int>("Id")
@@ -1875,11 +1896,8 @@ namespace proyecto.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Contenido")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ListaNoticiasId")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("autor")
                         .IsRequired()
@@ -1887,13 +1905,15 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("descripcion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("fecha")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("fecha")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("tema")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("titulo")
@@ -1902,14 +1922,14 @@ namespace proyecto.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("url")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("urlImagen")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ListaNoticiasId");
 
                     b.ToTable("Noticias", (string)null);
                 });
@@ -2100,6 +2120,25 @@ namespace proyecto.Migrations
                     b.Navigation("Acceso");
                 });
 
+            modelBuilder.Entity("proyecto.ListaNoticiaItems.ListaNoticiaItem", b =>
+                {
+                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
+                        .WithMany("ListaNoticiaItem")
+                        .HasForeignKey("ListaNoticiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("proyecto.noticias.Noticia", "Noticia")
+                        .WithMany("ListaNoticiaItem")
+                        .HasForeignKey("NoticiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ListaNoticia");
+
+                    b.Navigation("Noticia");
+                });
+
             modelBuilder.Entity("proyecto.Notificaciones.Notificacion", b =>
                 {
                     b.HasOne("proyecto.Alertas.Alerta", "Alerta")
@@ -2117,17 +2156,6 @@ namespace proyecto.Migrations
                     b.Navigation("Alerta");
 
                     b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("proyecto.noticias.Noticia", b =>
-                {
-                    b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
-                        .WithMany("ListaNoticias")
-                        .HasForeignKey("ListaNoticiasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ListaNoticia");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -2184,7 +2212,7 @@ namespace proyecto.Migrations
                 {
                     b.Navigation("Alertas");
 
-                    b.Navigation("ListaNoticias");
+                    b.Navigation("ListaNoticiaItem");
                 });
 
             modelBuilder.Entity("proyecto.Usuarios.Usuario", b =>
@@ -2194,6 +2222,11 @@ namespace proyecto.Migrations
                     b.Navigation("Busquedas");
 
                     b.Navigation("Notificaciones");
+                });
+
+            modelBuilder.Entity("proyecto.noticias.Noticia", b =>
+                {
+                    b.Navigation("ListaNoticiaItem");
                 });
 #pragma warning restore 612, 618
         }
