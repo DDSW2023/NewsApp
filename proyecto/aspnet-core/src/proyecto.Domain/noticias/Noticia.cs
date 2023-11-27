@@ -10,7 +10,7 @@ namespace proyecto.noticias
 {
     public class Noticia: Entity<int>
     {
-        public string? fecha { get; set; }
+        public DateTime? fecha { get; set; }
         public string? titulo { get; set; }
         public string? autor { get; set; }
         

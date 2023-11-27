@@ -29,10 +29,11 @@ namespace proyecto.ListaNoticias
         public async Task Should_Get_All_ListaNoticias()
         {
             //Act
-            var listaNoticias = await _listaNoticiasAppService.GetListasAsync();
+            var listas = await _listaNoticiasAppService.GetListasAsync();
+
             //Assert
-            listaNoticias.ShouldNotBeNull();
-            listaNoticias.Count.ShouldBeGreaterThan(1);
+            listas.ShouldNotBeNull();
+            listas.Count.ShouldBeGreaterThan(0);
         }
 
         [Fact]

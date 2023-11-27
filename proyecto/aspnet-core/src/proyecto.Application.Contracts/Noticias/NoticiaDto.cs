@@ -8,7 +8,7 @@ namespace proyecto.Noticias;
 
 public class NoticiaDto : EntityDto<int>
 {
-    public string? FechaPublicado { get; set; }
+    public DateTime? FechaPublicado { get; set; }
     public string Titulo { get; set; }
     public string Autor { get; set; }
         
@@ -21,6 +21,8 @@ public class NoticiaDto : EntityDto<int>
     public string Contenido { get; set; }
         
     public string? tema { get; set; }
+    
+    public string? Mensaje { get; set; }
 
     
 }

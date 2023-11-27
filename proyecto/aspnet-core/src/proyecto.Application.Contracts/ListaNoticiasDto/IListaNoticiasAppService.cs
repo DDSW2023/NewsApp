@@ -18,7 +18,9 @@ namespace proyecto.ListaNoticiasDto
         public Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
         
         
-        public Task<ListaNoticiaDto> DeleteListaNoticiaAsync(CrearListaNoticiaDto input);
+        public Task<ListaNoticiaDto> DeleteListaNoticiaAsync(int id);
+        
+        public Task<NoticiaDto> AgregarNoticiasAsync(int id, string query, string busqueda);
         
         //Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input);
         //Task<ListaNoticiaDto> UpdateListaNoticiaAsync(int id, CrearListaNoticiaDto input);
