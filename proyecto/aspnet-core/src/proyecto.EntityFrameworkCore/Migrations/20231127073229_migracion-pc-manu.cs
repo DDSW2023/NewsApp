@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace proyecto.Migrations
 {
     /// <inheritdoc />
-    public partial class migracionListaNoticias1 : Migration
+    public partial class migracionpcmanu : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -371,39 +371,6 @@ namespace proyecto.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Imagen",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    formato = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Imagen", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ListaNoticias",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    nombreLista = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ListaNoticiaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ListaNoticias", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ListaNoticias_ListaNoticias_ListaNoticiaId",
-                        column: x => x.ListaNoticiaId,
-                        principalTable: "ListaNoticias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict); // CAMBIOAOPSDIFSHADOGFIH
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
@@ -461,34 +428,6 @@ namespace proyecto.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OpenIddictScopes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Seccion",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    titulo = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    cuerpo = table.Column<int>(type: "int", maxLength: 128, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Seccion", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Temas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    nombre = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Temas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -739,24 +678,28 @@ namespace proyecto.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Alertas",
+                name: "ListaNoticias",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ListaNoticiaId = table.Column<int>(type: "int", nullable: false)
+                    nombreLista = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ListaNoticiaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Alertas", x => x.Id);
+                    table.PrimaryKey("PK_ListaNoticias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Alertas_ListaNoticias_ListaNoticiaId",
+                        name: "FK_ListaNoticias_AbpUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ListaNoticias_ListaNoticias_ListaNoticiaId",
                         column: x => x.ListaNoticiaId,
                         principalTable: "ListaNoticias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -789,32 +732,6 @@ namespace proyecto.Migrations
                         column: x => x.ApplicationId,
                         principalTable: "OpenIddictApplications",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Noticias",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    titulo = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    autor = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    urlImagen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Contenido = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TemaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Noticias", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Noticias_Temas_TemaId",
-                        column: x => x.TemaId,
-                        principalTable: "Temas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -883,32 +800,51 @@ namespace proyecto.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Notificaciones",
+                name: "Alertas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    link = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    AlertaId = table.Column<int>(type: "int", nullable: false)
+                    ListaNoticiaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notificaciones", x => x.Id);
+                    table.PrimaryKey("PK_Alertas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Notificaciones_Alertas_AlertaId",
-                        column: x => x.AlertaId,
-                        principalTable: "Alertas",
+                        name: "FK_Alertas_ListaNoticias_ListaNoticiaId",
+                        column: x => x.ListaNoticiaId,
+                        principalTable: "ListaNoticias",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Noticias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    fecha = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    titulo = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    autor = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    url = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    urlImagen = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Contenido = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    tema = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ListaNoticiasId = table.Column<int>(type: "int", nullable: true),
+                    ListaNoticiaId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Noticias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Notificaciones_Usuario_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuario",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Noticias_ListaNoticias_ListaNoticiaId",
+                        column: x => x.ListaNoticiaId,
+                        principalTable: "ListaNoticias",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -953,31 +889,6 @@ namespace proyecto.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ListaNoticiaItems",
-                columns: table => new
-                {
-                    ListaNoticiaId = table.Column<int>(type: "int", nullable: false),
-                    NoticiaId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ListaNoticiaItems", x => new { x.ListaNoticiaId, x.NoticiaId });
-                    table.ForeignKey(
-                        name: "FK_ListaNoticiaItems_ListaNoticias_ListaNoticiaId",
-                        column: x => x.ListaNoticiaId,
-                        principalTable: "ListaNoticias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ListaNoticiaItems_Noticias_NoticiaId",
-                        column: x => x.NoticiaId,
-                        principalTable: "Noticias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Errores",
                 columns: table => new
                 {
@@ -993,6 +904,35 @@ namespace proyecto.Migrations
                         name: "FK_Errores_Accesos_AccesoId",
                         column: x => x.AccesoId,
                         principalTable: "Accesos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notificaciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    link = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    AlertaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notificaciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notificaciones_Alertas_AlertaId",
+                        column: x => x.AlertaId,
+                        principalTable: "Alertas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Notificaciones_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1210,19 +1150,19 @@ namespace proyecto.Migrations
                 column: "AccesoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ListaNoticiaItems_NoticiaId",
-                table: "ListaNoticiaItems",
-                column: "NoticiaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ListaNoticias_ListaNoticiaId",
                 table: "ListaNoticias",
                 column: "ListaNoticiaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Noticias_TemaId",
+                name: "IX_ListaNoticias_UserId",
+                table: "ListaNoticias",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Noticias_ListaNoticiaId",
                 table: "Noticias",
-                column: "TemaId");
+                column: "ListaNoticiaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notificaciones_AlertaId",
@@ -1341,10 +1281,7 @@ namespace proyecto.Migrations
                 name: "Errores");
 
             migrationBuilder.DropTable(
-                name: "Imagen");
-
-            migrationBuilder.DropTable(
-                name: "ListaNoticiaItems");
+                name: "Noticias");
 
             migrationBuilder.DropTable(
                 name: "Notificaciones");
@@ -1354,9 +1291,6 @@ namespace proyecto.Migrations
 
             migrationBuilder.DropTable(
                 name: "OpenIddictTokens");
-
-            migrationBuilder.DropTable(
-                name: "Seccion");
 
             migrationBuilder.DropTable(
                 name: "AbpEntityChanges");
@@ -1371,13 +1305,7 @@ namespace proyecto.Migrations
                 name: "AbpRoles");
 
             migrationBuilder.DropTable(
-                name: "AbpUsers");
-
-            migrationBuilder.DropTable(
                 name: "Accesos");
-
-            migrationBuilder.DropTable(
-                name: "Noticias");
 
             migrationBuilder.DropTable(
                 name: "Alertas");
@@ -1392,13 +1320,13 @@ namespace proyecto.Migrations
                 name: "Usuario");
 
             migrationBuilder.DropTable(
-                name: "Temas");
-
-            migrationBuilder.DropTable(
                 name: "ListaNoticias");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
+
+            migrationBuilder.DropTable(
+                name: "AbpUsers");
         }
     }
 }

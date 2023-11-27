@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using proyecto.noticias;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace proyecto.Noticias;

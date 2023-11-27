@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace proyecto
+namespace proyecto.noticias
 {
-    /// <summary>
-    /// Este dto representa la respuesta de la api de noticias. Lo pongo en este proyecto ya que son diferentes a los dtos de application
-    /// </summary>
     public class ArticuloDto
     {
         public string Autor { get; set; }

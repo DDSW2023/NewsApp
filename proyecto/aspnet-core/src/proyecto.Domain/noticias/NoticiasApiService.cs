@@ -11,6 +11,7 @@ using proyecto.noticias;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using Statuses = NewsAPI.Constants.Statuses;
 
+
 namespace NewsApp.News
 {
     public class NoticiasApiService : INoticiasService
@@ -20,12 +21,12 @@ namespace NewsApp.News
             ICollection<ArticuloDto> responseList = new List<ArticuloDto>();
 
             // init with your API key
-            var newsApiClient = new NewsApiClient("32c81b11a55b44fd9b5b4e6e1ca5cdca");
+            var newsApiClient = new NewsApiClient("4d895af0df6b45d0b81aabf89718a506");
             var articlesResponse = await newsApiClient.GetEverythingAsync(new EverythingRequest
             {
                 Q = query,
                 SortBy = SortBys.Popularity,
-                Language = Languages.EN,
+                Language = Languages.ES,
                 // consultamos de un mes para atras ya que es lo que permite la api gratis
                 From = DateTime.Now.AddMonths(-1)
             }) ;
