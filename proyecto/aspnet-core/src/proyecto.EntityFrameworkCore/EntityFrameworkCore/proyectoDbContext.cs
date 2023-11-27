@@ -215,15 +215,9 @@ public class proyectoDbContext :
             b.ToTable("ListaNoticias", proyectoConsts.DbSchema);
             b.ConfigureByConvention(); 
             b.Property(x => x.nombreLista).IsRequired().HasMaxLength(128);
-            b.Property(x => x.ParentId).IsRequired().HasMaxLength(128);
             
         });
         
-        builder.Entity<ListaNoticia>()
-            .HasMany<Noticia>(g => g.ListaNoticias)
-            .WithOne(s => s.ListaNoticia)
-            .HasForeignKey(s => s.ListaNoticiasId)
-            .IsRequired();
 
         #endregion
 

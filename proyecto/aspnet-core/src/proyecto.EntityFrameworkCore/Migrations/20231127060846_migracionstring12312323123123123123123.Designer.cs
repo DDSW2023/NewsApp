@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 using proyecto.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    partial class proyectoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127060846_migracionstring12312323123123123123123")]
+    partial class migracionstring12312323123123123123123
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1790,7 +1793,7 @@ namespace proyecto.Migrations
                     b.Property<int?>("ListaNoticiaId")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("nombreLista")
@@ -1884,10 +1887,8 @@ namespace proyecto.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int?>("ListaNoticiaId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("ListaNoticiasId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("autor")
@@ -1926,7 +1927,7 @@ namespace proyecto.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ListaNoticiaId");
+                    b.HasIndex("ListaNoticiasId");
 
                     b.ToTable("Noticias", (string)null);
                 });
@@ -2125,7 +2126,9 @@ namespace proyecto.Migrations
 
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -2153,7 +2156,9 @@ namespace proyecto.Migrations
                 {
                     b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
                         .WithMany("ListaNoticias")
-                        .HasForeignKey("ListaNoticiaId");
+                        .HasForeignKey("ListaNoticiasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ListaNoticia");
                 });
