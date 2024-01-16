@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using proyecto.Alertas;
+using proyecto.AlertasDto;
 using proyecto.ListaNoticiasDto;
 using proyecto.noticias;
 using proyecto.Noticias;
@@ -47,11 +50,34 @@ namespace proyecto.ListaNoticias
         {            
             var queryable = await _repository.WithDetailsAsync(x => x.Listas);
 
+            var Noticiasq = await _repositoryNoticias.GetQueryableAsync();
+
+            var noticias = new Collection<NoticiaDto>();
+            
+                
+                foreach(var i in Noticiasq){
+
+                    if (i.ListaNoticiasId == id)
+                    {
+                        var dto = ObjectMapper.Map<Noticia, NoticiaDto>(i);
+                        noticias.Add(dto);
+                    }
+                };
+            
             var query = queryable.Where(x => x.Id == id);
 
             var listas = await AsyncExecuter.FirstOrDefaultAsync(query);
 
-            return ObjectMapper.Map<ListaNoticia, ListaNoticiaDto>(listas);
+            var response = new ListaNoticiaDto();
+
+            response.nombreLista = listas.nombreLista;
+            response.Id = listas.Id;
+            response.Alertas = ObjectMapper.Map<ICollection<Alerta>, ICollection<AlertaDto>>(listas.Alertas);
+            response.ListaNoticias = ObjectMapper.Map<ICollection<ListaNoticia>, ICollection<ListaNoticiaDto>>(listas.Listas);
+            response.ListaNoticiasItems = ObjectMapper.Map<ICollection<Noticia>, ICollection<NoticiaDto>>(listas.ListaNoticias);
+
+
+            return response;
             
         }    
 
@@ -96,7 +122,7 @@ namespace proyecto.ListaNoticias
             foreach (var noticiaLista in lista)
             {
 
-                if (noticiaLista.Titulo == busqueda)
+                if (noticiaLista.Titulo.Contains(busqueda))
                 {
 
                     if (noticiaLista is not null &&
@@ -129,6 +155,8 @@ namespace proyecto.ListaNoticias
                             Autor = noticiaLista.Autor,
                             Mensaje = "Noticia Encontrada!"
                         };
+
+                        return noticiaEncontrada;
 
                     }
                 }

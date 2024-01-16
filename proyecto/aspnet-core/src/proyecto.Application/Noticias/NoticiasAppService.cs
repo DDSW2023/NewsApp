@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using proyecto.noticias;
 using Volo.Abp.Domain.Repositories;
+using IQueryable = System.Linq.IQueryable;
 
 namespace proyecto.Noticias;
 
@@ -51,5 +53,11 @@ public class NoticiasAppService : proyectoAppService, INoticiasAppService
     {
         var noticia = await _repository.GetAsync(noticiaId);
         return ObjectMapper.Map<Noticia, NoticiaDto>(noticia);
+    }
+    
+    public async Task<IQueryable<NoticiaDto>> GetNoticias()
+    {
+        var noticia = await _repository.GetQueryableAsync();
+        return ObjectMapper.Map<IQueryable<Noticia>, IQueryable<NoticiaDto>>(noticia);
     }
 }

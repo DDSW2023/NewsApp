@@ -10,7 +10,7 @@ namespace proyecto.AlertasDto
     {
         Task<ICollection<AlertaDto>> GetAlertaAsync(int id);
         Task<AlertaDto> GetAlertaAsync();
-        Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input);
+        Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, CrearAlertaRequestDto busqueda);     
         Task<AlertaDto> UpdateAlertaAsync(int id, CrearAlertaDto input);
         Task<AlertaDto> DeleteAlertaAsync(int id);
 
