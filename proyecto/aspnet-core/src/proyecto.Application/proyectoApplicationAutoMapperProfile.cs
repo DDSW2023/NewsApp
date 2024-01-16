@@ -7,6 +7,7 @@ using proyecto.TemaNoticiasDto;
 using proyecto.AlertasDto;
 using proyecto.ListaNoticiasDto;
 using proyecto.ListaNoticias;
+using proyecto.Notificaciones;
 
 namespace proyecto;
 
@@ -31,5 +32,8 @@ public class proyectoApplicationAutoMapperProfile : Profile
         //dtos ListaNoticia
         CreateMap<ListaNoticia, ListaNoticiaDto>();
         CreateMap<ListaNoticia, CrearListaNoticiaDto>();
+        
+        CreateMap<Notificacion, NotificacionesResponseDto>();
+        CreateMap<Notificacion, NotificacionesRequestDto>();
     }
 }

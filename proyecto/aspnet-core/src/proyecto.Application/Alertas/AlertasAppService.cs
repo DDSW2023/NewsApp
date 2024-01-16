@@ -4,14 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using proyecto.noticias;
+using Volo.Abp.Domain.Repositories;
 
 namespace proyecto.Alertas
 {
     public class AlertasAppService : proyectoAppService, IAlertasAppService
     {
-        public Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input)
+        
+        private readonly IAlertasAppService _alertasService;
+
+        private readonly IRepository<Alerta, int> _repository;
+    
+        public AlertasAppService(IRepository<Alerta, int> repo, IAlertasAppService newsService)
         {
-            throw new NotImplementedException();
+            _alertasService = newsService;
+
+            _repository = repo;
+        }
+        public async Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, CrearAlertaRequestDto busqueda)
+        {
+            var nuevaAlerta = new Alerta
+            {
+                descripcion = busqueda.Titulo,
+                fecha = DateTime.Today
+            };
+
+            var alerta = await _repository.InsertAsync(nuevaAlerta);
+            return ObjectMapper.Map<Alerta, AlertaDto>(nuevaAlerta);
         }
 
         public Task<AlertaDto> DeleteAlertaAsync(int id)
