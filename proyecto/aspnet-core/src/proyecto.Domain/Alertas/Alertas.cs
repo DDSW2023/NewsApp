@@ -9,9 +9,9 @@ namespace proyecto.Alertas;
 public class Alerta : Entity<int>
 {
     public DateTime fecha { get; set; }
-    public String descripcion { get; set; }
+    public String? descripcion { get; set; }
     public ICollection<Notificacion> Notificaciones { get; set; }
-    public int ListaNoticiaId { get; set; }
-    public ListaNoticia ListaNoticia { get; set; }
+    public int? ListaNoticiaId { get; set; }
+    public ListaNoticia? ListaNoticia { get; set; }
 }
 
