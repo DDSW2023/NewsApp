@@ -13,8 +13,8 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    [Migration("20231127065652_migracionstring1231232312312312312312312t54e3")]
-    partial class migracionstring1231232312312312312312312t54e3
+    [Migration("20240312220953_nueva-migracion")]
+    partial class nuevamigracion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1718,7 +1718,7 @@ namespace proyecto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ListaNoticiaId")
+                    b.Property<int?>("ListaNoticiaId")
                         .HasColumnType("int");
 
                     b.Property<string>("descripcion")
@@ -2091,9 +2091,7 @@ namespace proyecto.Migrations
                 {
                     b.HasOne("proyecto.ListaNoticias.ListaNoticia", "ListaNoticia")
                         .WithMany("Alertas")
-                        .HasForeignKey("ListaNoticiaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ListaNoticiaId");
 
                     b.Navigation("ListaNoticia");
                 });

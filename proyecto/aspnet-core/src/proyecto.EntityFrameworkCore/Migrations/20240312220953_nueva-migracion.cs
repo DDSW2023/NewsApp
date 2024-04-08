@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace proyecto.Migrations
 {
     /// <inheritdoc />
-    public partial class migracionpcmanu : Migration
+    public partial class nuevamigracion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -807,7 +807,7 @@ namespace proyecto.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ListaNoticiaId = table.Column<int>(type: "int", nullable: false)
+                    ListaNoticiaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -816,8 +816,7 @@ namespace proyecto.Migrations
                         name: "FK_Alertas_ListaNoticias_ListaNoticiaId",
                         column: x => x.ListaNoticiaId,
                         principalTable: "ListaNoticias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -826,7 +825,7 @@ namespace proyecto.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    fecha = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     titulo = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     autor = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),

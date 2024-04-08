@@ -47,6 +47,8 @@ namespace proyecto.ListaNoticia
 
             //Assert
             listaNoticia.ShouldNotBeNull();
+
         }
+        
     }
 }

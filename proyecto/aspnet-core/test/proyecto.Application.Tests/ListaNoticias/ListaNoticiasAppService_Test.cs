@@ -102,7 +102,24 @@ namespace proyecto.ListaNoticias
             }
         }
 
+        public async Task Should_Delete_A_ListaNoticia()
+        {
+            //Arrange
+            var input = new CrearListaNoticiaDto { nombreLista = "nuevo ListaNoticias"};
+            var newListaNoticias = await _listaNoticiasAppService.CreateListaNoticiaAsync(input);
 
+            //Act
+            await _listaNoticiasAppService.DeleteListaNoticiaAsync(newListaNoticias.Id);
+
+            //Assert
+            // Verificar que la lista de noticias ya no exista
+            using (var uow = _unitOfWorkManager.Begin())
+            {
+                var dbContext = await _dbContextProvider.GetDbContextAsync();
+                dbContext.ListaNoticias.FirstOrDefault(t => t.Id == newListaNoticias.Id).ShouldBeNull();
+            }
+
+        }
 
     }
 }
