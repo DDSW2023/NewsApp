@@ -1,11 +1,14 @@
 ﻿using proyecto.EntityFrameworkCore;
 using proyecto.ListaNoticiasDto;
+using proyecto.noticias;
+using proyecto.Noticias;
 using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Uow;
 using Xunit;
@@ -120,6 +123,32 @@ namespace proyecto.ListaNoticias
             }
 
         }
+
+        public async Task Should_Add_News_To_List()
+        {
+
+            // Arrange
+            var id = 1;
+            var query = "politica";
+            var busqueda = "noticia";
+            var noticiaDto = new NoticiaDto
+            {
+                Descripcion = "Descripción de la noticia",
+                FechaPublicado = DateTime.Now,
+                Titulo = "Título de la noticia",
+                Autor = "Autor de la noticia",
+                Mensaje = "Noticia Encontrada!"
+            };
+
+            // Act
+            var result = await _listaNoticiasAppService.AgregarNoticiasAsync(id, query, busqueda);
+
+            // Assert
+            Assert.Equal(noticiaDto.Mensaje, result.Mensaje);
+        }
+
+
+    }
 
     }
 }
