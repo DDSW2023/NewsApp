@@ -147,8 +147,6 @@ namespace proyecto.ListaNoticias
             Assert.Equal(noticiaDto.Mensaje, result.Mensaje);
         }
 
-
     }
 
-    }
 }
