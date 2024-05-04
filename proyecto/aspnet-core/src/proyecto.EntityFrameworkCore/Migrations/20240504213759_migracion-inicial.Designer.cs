@@ -13,8 +13,8 @@ using proyecto.EntityFrameworkCore;
 namespace proyecto.Migrations
 {
     [DbContext(typeof(proyectoDbContext))]
-    [Migration("20240312220953_nueva-migracion")]
-    partial class nuevamigracion
+    [Migration("20240504213759_migracion-inicial")]
+    partial class migracioninicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

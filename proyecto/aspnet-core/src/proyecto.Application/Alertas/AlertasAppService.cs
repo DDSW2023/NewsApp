@@ -51,6 +51,7 @@ namespace proyecto.Alertas1
                 throw new Exception("No se encontraron noticias que coincidan con el texto de búsqueda.");
             }
         }
+        
 
         public Task<AlertaDto> DeleteAlertaAsync(int id)
         {

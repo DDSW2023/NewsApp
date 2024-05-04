@@ -28,14 +28,16 @@ namespace proyecto.ListaNoticias
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ListaNoticiaManager _listaNoticiaManager;
         private readonly INoticiasService _noticiasService;
+        private readonly INoticiasAppService _noticiasAppService;
 
-        public ListaNoticiasAppService(IRepository<ListaNoticia, int> repository, INoticiasService noticiasService, UserManager<IdentityUser> user, ListaNoticiaManager manager, IRepository<Noticia, int> noticias )
+        public ListaNoticiasAppService(INoticiasAppService noticia, IRepository<ListaNoticia, int> repository, INoticiasService noticiasService, UserManager<IdentityUser> user, ListaNoticiaManager manager, IRepository<Noticia, int> noticias )
         {
             _repository = repository;
             _userManager = user;
             _listaNoticiaManager = manager;
             _repositoryNoticias = noticias;
             _noticiasService = noticiasService;
+            _noticiasAppService = noticia;
         }
 
         
@@ -117,6 +119,8 @@ namespace proyecto.ListaNoticias
             var lista = await _noticiasService.GetNewsAsync(query);
             
             NoticiaDto noticiaEncontrada = null;
+
+            bool finded = false;
  
             
             foreach (var noticiaLista in lista)
@@ -132,20 +136,21 @@ namespace proyecto.ListaNoticias
                         noticiaLista.Titulo is not null &&
                         noticiaLista.Autor is not null)
                     {
-                        var noticia = new Noticia
+                        
+                        var crearNoticia = new CrearNoticiasDto
                         {
                             descripcion = noticiaLista.Descripcion,
                             fecha = noticiaLista.FechaPublicado,
                             titulo = noticiaLista.Titulo,
                             autor = noticiaLista.Autor,
                             url = noticiaLista.Url,
-                            urlImagen = noticiaLista.UrlDeImagen,
-                            Contenido = noticiaLista.Contenido,
+                            urlImagen = "asd",
+                            Contenido = "asd",
                             tema = query,
                             ListaNoticiasId = id
                         };
 
-                        await _repositoryNoticias.InsertAsync(noticia);
+                        await _noticiasAppService.CreateNoticia(crearNoticia);
                         
                         noticiaEncontrada = new NoticiaDto
                         {
@@ -153,22 +158,31 @@ namespace proyecto.ListaNoticias
                             FechaPublicado = noticiaLista.FechaPublicado,
                             Titulo = noticiaLista.Titulo,
                             Autor = noticiaLista.Autor,
-                            Mensaje = "Noticia Encontrada!"
+                            Mensaje = "Noticia Encontrada!",
+                            Contenido = "",
+                            Id = 0,
+                            tema = "",
+                            Url = "",
+                            UrlDeImagen = ""
                         };
 
-                        return noticiaEncontrada;
+                        finded = true;
 
                     }
                 }
             }
             
-            if (noticiaEncontrada == null)
+            if (finded == false)
             {
                 // No se encontró ninguna noticia que coincida con la búsqueda
                 return new NoticiaDto { Mensaje = "No se encontró ninguna noticia con el título especificado." };
             }
-
+            else
+            {
             return noticiaEncontrada;
+                
+            }
+
         }
         
     }

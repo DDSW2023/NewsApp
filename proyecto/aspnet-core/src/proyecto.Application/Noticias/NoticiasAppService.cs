@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using proyecto.noticias;
@@ -30,9 +31,12 @@ public class NoticiasAppService : proyectoAppService, INoticiasAppService
 
     public async Task<NoticiaDto> CreateNoticia(CrearNoticiasDto noticia)
     {
+        string descripcion = noticia.descripcion;
+        string primeros100Caracteres = descripcion.Substring(0, Math.Min(descripcion.Length, 100));
+
         var noti = new Noticia
         {
-            descripcion = noticia.descripcion,
+            descripcion = primeros100Caracteres,
             fecha = noticia.fecha,
             titulo = noticia.titulo,
             autor = noticia.autor,
