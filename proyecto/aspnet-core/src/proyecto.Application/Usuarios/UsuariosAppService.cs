@@ -29,6 +29,33 @@ public class UsuariosAppService : proyectoAppService, IUsuariosAppService
         return ObjectMapper.Map<Usuario, UsuarioDto>(usuario);
     }
 
+    public async Task<UsuarioDto> GetUserIdByName(string user)
+    {
+        var users = await _repository.GetListAsync();
+
+        var encontrado = false;
+
+        var usuario = new UsuarioDto();
+        
+        foreach (var u in users)
+        {
+            if (u.nombre == user)
+            {
+                var usuarioEncontrado = new UsuarioDto
+                {
+                    Id = u.Id,
+                    mail = u.mail,
+                    nombre = u.nombre
+                };
+
+                return usuarioEncontrado;
+
+            }
+        }
+
+        return usuario;
+    }
+
     public async Task<UsuarioDto> UpdateUsuarioAsync(int id, CrearUsuarioDto input)
     {
         var usuario = await _repository.GetAsync(id);

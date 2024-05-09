@@ -1,9 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using proyecto.Alertas1;
+using proyecto.AlertasDto;
+using proyecto.Noticias;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.ObjectMapping;
 using proyecto.NotificacionesDto;
+using proyecto.Usuarios;
+using proyecto.UsuariosDto;
 
 namespace proyecto.Notificaciones;
 
@@ -11,10 +17,65 @@ public class NotificacionesAppService : proyectoAppService, INotificacionesAppSe
 {
 
     private readonly IRepository<Notificacion, int> _repository;
+    private readonly IRepository<Alerta, int> _repositoryalerta;
+    private readonly IRepository<Usuario, int> _repositoryusuario;
+    private readonly IUsuariosAppService _usuariosAppService;
 
-    public NotificacionesAppService(IRepository<Notificacion, int> repository)
+    private readonly INoticiasAppService _noticiasAppService;
+
+    public NotificacionesAppService(IRepository<Notificacion, int> repository, IUsuariosAppService user, INoticiasAppService noti, IRepository<Alerta, int> alerta)
     {
         _repository = repository;
+        _noticiasAppService = noti;
+        _repositoryalerta = alerta;
+        _usuariosAppService = user;
+    }
+    
+    
+    
+    public async Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda)
+    {
+        
+            // Crear una nueva alerta
+            var nuevaAlerta = new Alerta
+            {
+                descripcion = textoBusqueda,
+                fecha = DateTime.Today
+            };
+            
+            var alerta = await _repositoryalerta.InsertAsync(nuevaAlerta);
+
+            return ObjectMapper.Map<Alerta, AlertaDto>(nuevaAlerta);
+
+    }
+
+    public async Task<List<NotificacionDto>> GetNotificacionUserAsync(string user)
+    {
+        var notificaciones = await _repository.GetListAsync();
+
+        var userId = await _usuariosAppService.GetUserIdByName(user);
+        
+        var lista = new List<NotificacionDto>();
+
+        foreach (var n in notificaciones)
+        {
+            if (n.UsuarioId == userId.Id)
+            {
+                var notificacionDto = new NotificacionDto
+                {
+                    AlertaId = n.AlertaId,
+                    descripcion = n.descripcion,
+                    fecha = n.fecha,
+                    Id = n.Id,
+                    UsuarioId = n.UsuarioId,
+                    link = n.link
+                };
+                
+                lista.Add(notificacionDto);
+            }
+        }
+
+        return lista;
     }
 
     public async Task<NotificacionDto> CreateNotificacionAsync(CrearNotificacionDto input)

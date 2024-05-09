@@ -1,6 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NewsApp.News;
+using proyecto.Alertas;
+using proyecto.AlertasDto;
 using proyecto.noticias;
+using proyecto.Notificacion1;
+using proyecto.NotificacionesApp;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;

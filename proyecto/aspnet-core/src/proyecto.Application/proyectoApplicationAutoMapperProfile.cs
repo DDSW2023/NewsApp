@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using proyecto.Alertas;
+using proyecto.Alertas1;
 using proyecto.ListaNoticiaItemsDto;
 using proyecto.noticias;
 using proyecto.Noticias;

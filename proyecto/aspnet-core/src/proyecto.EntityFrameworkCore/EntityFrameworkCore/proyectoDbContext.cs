@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using proyecto.Accesos;
-using proyecto.Alertas;
+using proyecto.Alertas1;
 using proyecto.Busquedas;
 using proyecto.Errores;
 using proyecto.ListaNoticias;

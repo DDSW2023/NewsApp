@@ -6,12 +6,12 @@ using Volo.Abp.Application.Services;
 
 namespace proyecto.AlertasDto
 {
-    public interface IAlertasAppService
+    public interface IAlertasAppService : IApplicationService
     {
-        Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda);
-        Task<AlertaDto> DeleteAlertaAsync(int id);
-        Task<AlertaDto> GetAlertaAsync();
-        Task<ICollection<AlertaDto>> GetAlertaAsync(int id);
-        Task<AlertaDto> UpdateAlertaAsync(int id, CrearAlertaDto input);
+        public Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda);
+        public Task<AlertaDto> DeleteAlertaAsync(int id);
+        public Task<AlertaDto> GetAlertaAsync();
+        public Task<ICollection<AlertaDto>> GetAlertaAsync(int id);
+        public Task<AlertaDto> UpdateAlertaAsync(int id, CrearAlertaDto input);
     }
 }

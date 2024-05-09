@@ -1,17 +1,16 @@
-﻿using proyecto.AlertasDto;
+﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Volo.Abp.ObjectMapping;
-using proyecto.noticias;
-using Volo.Abp.Domain.Repositories;
-using proyecto.Alertas;
-using proyecto.Notificaciones;
+using proyecto.Alertas1;
+using proyecto.AlertasDto;
 using proyecto.Noticias;
+using proyecto.Notificaciones;
+using Volo.Abp.Domain.Repositories;
 
-namespace proyecto.Alertas1
+namespace proyecto.Alertas
 {
 
     public class AlertasAppService : proyectoAppService, IAlertasAppService
@@ -21,10 +20,11 @@ namespace proyecto.Alertas1
         private readonly INoticiasAppService _noticiasAppService;
         private readonly IRepository<Alerta, int> _repository;
 
-        public AlertasAppService(IRepository<Alerta, int> repo, IAlertasAppService newsService)
+        public AlertasAppService(IRepository<Alerta, int> repo, IAlertasAppService newsService, INoticiasAppService noti)
         {
             _alertasService = newsService;
             _repository = repo;
+            _noticiasAppService = noti;
         }
         public async Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda)
         {
@@ -41,6 +41,18 @@ namespace proyecto.Alertas1
 
                 // Asociar las noticias encontradas con la alerta
                 nuevaAlerta.Notificaciones = noticias.Select(noticia => new Notificacion { descripcion = noticia.Descripcion }).ToList();
+
+      //          foreach (var n in noticias)
+        //        {
+          //          var notificacion = new Notificacion
+            //        {
+             //           fecha = n.FechaPublicado,
+               //         descripcion = n.Descripcion,
+                 //       link = n.Url
+                   // };
+                    
+                   // nuevaAlerta.Notificaciones.Add(notificacion);
+               // }
 
                 var alerta = await _repository.InsertAsync(nuevaAlerta);
 

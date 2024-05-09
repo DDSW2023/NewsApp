@@ -10,6 +10,8 @@ public interface IUsuariosAppService : IApplicationService
 
     Task<ICollection<UsuarioDto>> GetUsuarioBusquedasAsync();
 
+    Task<UsuarioDto> GetUserIdByName(string user);
+    
     Task<ICollection<UsuarioDto>> GetUsuarioNotificacionesAsync();
 
     Task<UsuarioDto> GetUsuarioAccesoAsync(int id);

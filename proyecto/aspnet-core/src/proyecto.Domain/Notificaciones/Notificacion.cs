@@ -1,8 +1,7 @@
 using proyecto.Accesos;
-using proyecto.Alertas;
 using proyecto.Usuarios;
 using System;
-using proyecto.Alertas;
+using proyecto.Alertas1;
 using proyecto.Usuarios;
 using Volo.Abp.Domain.Entities;
 

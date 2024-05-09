@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using proyecto.Alertas;
+using proyecto.Alertas1;
 using proyecto.AlertasDto;
 using proyecto.ListaNoticiasDto;
 using proyecto.noticias;
@@ -132,7 +132,6 @@ namespace proyecto.ListaNoticias
                     if (noticiaLista is not null &&
                         noticiaLista.Url is not null &&
                         noticiaLista.Descripcion is not null &&
-                        noticiaLista.FechaPublicado is not null &&
                         noticiaLista.Titulo is not null &&
                         noticiaLista.Autor is not null)
                     {

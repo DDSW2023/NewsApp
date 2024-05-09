@@ -4,7 +4,7 @@ using proyecto.ListaNoticias;
 using proyecto.Notificaciones;
 using Volo.Abp.Domain.Entities;
 
-namespace proyecto.Alertas;
+namespace proyecto.Alertas1;
 
 public class Alerta : Entity<int>
 {

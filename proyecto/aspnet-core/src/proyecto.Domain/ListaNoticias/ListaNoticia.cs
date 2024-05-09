@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using proyecto.Alertas;
+using proyecto.Alertas1;
 using proyecto.noticias;
 using proyecto.Notificaciones;
 using Volo.Abp.Domain.Entities;
