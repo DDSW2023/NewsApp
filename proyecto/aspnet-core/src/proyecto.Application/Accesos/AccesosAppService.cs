@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
@@ -15,14 +16,15 @@ public class AccesosAppService : proyectoAppService, IAccesosAppService
     {
         _repository = repository;
     }
+    
+    
 
     public async Task<AccesoDto> CreateAccesoAsync(CrearAccesoDto input)
     {
         var acceso = new Acceso
         {
             fecha = input.fecha,
-            horaInicio = input.horaInicio,
-            horaFin = input.horaFin,
+            tiempoConsulta = 0,
             UsuarioId = input.UsuarioId,
         };
         await _repository.InsertAsync(acceso);
@@ -32,11 +34,60 @@ public class AccesosAppService : proyectoAppService, IAccesosAppService
     {
         var acceso = await _repository.GetAsync(id);
         acceso.fecha = input.fecha;
-        acceso.horaInicio = input.horaInicio;
-        acceso.horaFin = input.horaFin;
         acceso.UsuarioId = input.UsuarioId;
         await _repository.UpdateAsync(acceso);
         return ObjectMapper.Map<Acceso, AccesoDto>(acceso);
+    }
+
+    public async Task<MonitoreoResponseDto> GetMonitoreo(DateTime fechaInicio, DateTime fechaFin)
+    {
+        // Inicializamos la response
+        var response = new MonitoreoResponseDto();
+        response.Accesos = new List<AccesoDto>();
+        
+        // Declaramos los contadores
+        var total = 0;
+        float tiempoTotal = 0;
+        float tiempoPromedio = 0;
+        
+        var accesos = await _repository.GetListAsync();
+
+        foreach (var a in accesos)
+        {
+            // Chequeamos que esté entre las fechas
+            if (a.fecha >= fechaInicio && a.fecha <= fechaFin)
+            {
+                
+            
+            // Sumamos los contadores
+            total = total + 1;
+            tiempoTotal = tiempoTotal + a.tiempoConsulta;
+
+            var accesoDto = new AccesoDto
+            {
+                fecha = a.fecha,
+                tiempoAcceso = a.tiempoConsulta,
+                Id = a.Id,
+                UsuarioId = a.UsuarioId
+            };
+            
+            response.Accesos.Add(accesoDto);
+            }
+        }
+
+        if (total > 0)
+        {
+            tiempoPromedio = tiempoTotal / total;
+        }
+        else
+        {
+            tiempoPromedio = 0;
+        }
+
+        response.tiempoPromedio = tiempoPromedio;
+        response.cantidadAccesos = total;
+
+        return response;
     }
 
     public async Task<ICollection<AccesoDto>> GetAccesoAsync()

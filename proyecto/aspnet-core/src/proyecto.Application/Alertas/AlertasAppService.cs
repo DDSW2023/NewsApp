@@ -16,19 +16,24 @@ namespace proyecto.Alertas
     public class AlertasAppService : proyectoAppService, IAlertasAppService
     {
 
-        private readonly IAlertasAppService _alertasService;
         private readonly INoticiasAppService _noticiasAppService;
         private readonly IRepository<Alerta, int> _repository;
 
-        public AlertasAppService(IRepository<Alerta, int> repo, IAlertasAppService newsService, INoticiasAppService noti)
+        public AlertasAppService(IRepository<Alerta, int> repo, INoticiasAppService noti)
         {
-            _alertasService = newsService;
             _repository = repo;
             _noticiasAppService = noti;
         }
-        public async Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda)
+
+        public async Task<string> prueba()
         {
-            var noticias = await _noticiasAppService.Search(textoBusqueda);
+            var h = "hola";
+            return h;
+        }
+
+        public async Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda, int userId)
+        {
+            var noticias = await _noticiasAppService.Search(textoBusqueda, userId);
 
             if (noticias.Any())
             {
@@ -70,9 +75,10 @@ namespace proyecto.Alertas
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<AlertaDto>> GetAlertaAsync(int id)
+        public async Task<ICollection<AlertaDto>> GetAlertaAsync(int id)
         {
-            throw new NotImplementedException();
+            var noticia = await _repository.GetListAsync();
+            return ObjectMapper.Map<ICollection<Alerta>, ICollection<AlertaDto>>(noticia);       
         }
 
         public Task<AlertaDto> GetAlertaAsync()

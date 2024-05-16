@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
@@ -6,6 +7,7 @@ namespace proyecto.AccesosDto;
 
 public interface IAccesosAppService : IApplicationService
 {
+    Task<MonitoreoResponseDto> GetMonitoreo(DateTime fechaInicio, DateTime fechaFin);
 
     Task<ICollection<AccesoDto>> GetAccesoAsync();
 

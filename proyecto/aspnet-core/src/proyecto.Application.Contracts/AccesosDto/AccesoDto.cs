@@ -7,8 +7,14 @@ namespace proyecto.AccesosDto;
 public class AccesoDto : EntityDto<int>
 {
     public DateTime fecha { get; set; }
-    public TimeSpan horaInicio { get; set; }
-    public TimeSpan horaFin { get; set; }
-    public IList<ErrorDto> Errores { get; set; }
+    public float tiempoAcceso { get; set; }
     public int UsuarioId { get; set; }
+}
+
+
+public class MonitoreoResponseDto : EntityDto<int>
+{
+    public float tiempoPromedio { get; set; }
+    public int cantidadAccesos { get; set; }
+    public List<AccesoDto> Accesos { get; set; }
 }

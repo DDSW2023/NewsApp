@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using proyecto.Alertas1;
 using proyecto.AlertasDto;
+using proyecto.noticias;
 using proyecto.Noticias;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.ObjectMapping;
@@ -17,18 +19,21 @@ public class NotificacionesAppService : proyectoAppService, INotificacionesAppSe
 {
 
     private readonly IRepository<Notificacion, int> _repository;
+    private readonly IRepository<Noticia, int> _repositorynoticias;
+
     private readonly IRepository<Alerta, int> _repositoryalerta;
     private readonly IRepository<Usuario, int> _repositoryusuario;
     private readonly IUsuariosAppService _usuariosAppService;
 
     private readonly INoticiasAppService _noticiasAppService;
 
-    public NotificacionesAppService(IRepository<Notificacion, int> repository, IUsuariosAppService user, INoticiasAppService noti, IRepository<Alerta, int> alerta)
+    public NotificacionesAppService(IRepository<Noticia, int> noticia, IRepository<Notificacion, int> repository, IUsuariosAppService user, INoticiasAppService noti, IRepository<Alerta, int> alerta)
     {
         _repository = repository;
         _noticiasAppService = noti;
         _repositoryalerta = alerta;
         _usuariosAppService = user;
+        _repositorynoticias = noticia;
     }
     
     
@@ -76,6 +81,45 @@ public class NotificacionesAppService : proyectoAppService, INotificacionesAppSe
         }
 
         return lista;
+    }
+
+    public async Task<List<NotificacionDto>> PersistirNotificaciones(int alertId, int userId)
+    {
+        var response = new List<NotificacionDto>();
+        
+        var alert = await _repositoryalerta.GetAsync(alertId);
+
+        // Buscamos el texto de búsqueda en la API
+        var noticias = await _noticiasAppService.Search(alert.descripcion, userId);
+
+        foreach (var n in noticias)
+        {
+            // Creamos el objeto notificación
+            var notificacion = new Notificacion
+            {
+                descripcion = "Nueva noticia: " + n.Titulo,
+                AlertaId = alertId,
+                fecha = DateTime.Now,
+                link = n.Url,
+                UsuarioId = userId
+            };
+
+            // Persistimos la notificación 
+            
+            var notificacionDto = ObjectMapper.Map<Notificacion, NotificacionDto>(notificacion);
+
+            response.Add(notificacionDto);
+
+            if (response.Count < 27)
+            {
+            _repository.InsertAsync(notificacion);
+            }
+            
+        }
+
+
+        return response;
+
     }
 
     public async Task<NotificacionDto> CreateNotificacionAsync(CrearNotificacionDto input)

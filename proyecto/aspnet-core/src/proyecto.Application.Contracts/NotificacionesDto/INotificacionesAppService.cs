@@ -14,6 +14,8 @@ public interface INotificacionesAppService : IApplicationService
   Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda);
 
     Task<List<NotificacionDto>> GetNotificacionUserAsync(string user);
+    
+    Task<List<NotificacionDto>> PersistirNotificaciones(int alertId, int userId);
   
     Task<NotificacionDto> GetNotificacionAsync(int id);
 

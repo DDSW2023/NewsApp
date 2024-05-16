@@ -35,7 +35,7 @@ namespace proyecto.Alertas
             var crearAlertaDto = new CrearAlertaDto();
             var textoBusqueda = "texto de prueba";
             //Act
-            var result = await _alertasAppService.CreateAlertaAsync(crearAlertaDto, textoBusqueda);
+            var result = await _alertasAppService.CreateAlertaAsync(crearAlertaDto, textoBusqueda, 2);
             //Assert
             Assert.NotNull(result);
             Assert.Equal(textoBusqueda, result.descripcion);

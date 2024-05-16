@@ -146,8 +146,7 @@ public class proyectoDbContext :
             b.ToTable("Accesos", proyectoConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.fecha).IsRequired();
-            b.Property(x => x.horaInicio).IsRequired();
-            b.Property(x => x.horaFin).IsRequired();
+            b.Property(x => x.tiempoConsulta).IsRequired();
         });
 
         builder.Entity<Acceso>()
