@@ -25,7 +25,9 @@ public class NoticiasAppService : proyectoAppService, INoticiasAppService
         _repositoryacceso = acceso;
         _repository = repo;
     }
-    
+
+    // Realizar una búsqueda en NewsApi y devolver los resultados.
+    // Obtención información estadística de monitoreo de los accesos a la API.
     public async Task<ICollection<ArticuloDto>> Search(string query, int userId)
     {
         // Crear y comenzar el cronómetro

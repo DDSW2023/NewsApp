@@ -8,7 +8,6 @@ namespace proyecto.AlertasDto
 {
     public interface IAlertasAppService : IApplicationService
     {
-        public Task<string> prueba();
         public Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda, int userId);
         public Task<AlertaDto> DeleteAlertaAsync(int id);
         public Task<AlertaDto> GetAlertaAsync();

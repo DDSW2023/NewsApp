@@ -25,11 +25,8 @@ namespace proyecto.Alertas
             _noticiasAppService = noti;
         }
 
-        public async Task<string> prueba()
-        {
-            var h = "hola";
-            return h;
-        }
+
+        //Crear una alerta de nuevas noticias a partir de un texto de búsqueda
 
         public async Task<AlertaDto> CreateAlertaAsync(CrearAlertaDto input, string textoBusqueda, int userId)
         {

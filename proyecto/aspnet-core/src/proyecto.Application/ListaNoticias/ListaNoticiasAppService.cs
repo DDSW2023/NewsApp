@@ -81,8 +81,9 @@ namespace proyecto.ListaNoticias
 
             return response;
             
-        }    
+        }
 
+        //Crear y actualizar una lista de lectura
         public async Task<ListaNoticiaDto> CreateListaNoticiaAsync(CrearListaNoticiaDto input)
         {
 
@@ -105,6 +106,8 @@ namespace proyecto.ListaNoticias
  
         }
 
+        //Eliminar una lista de lectura
+
         public async Task<ListaNoticiaDto> DeleteListaNoticiaAsync(int id)
         {
             var lista = await _repository.GetAsync(id);
@@ -113,6 +116,8 @@ namespace proyecto.ListaNoticias
         
             return ObjectMapper.Map<ListaNoticia, ListaNoticiaDto>(lista);
         }
+
+        //Agregar un texto resultado de busqueda a una lista de lectura.
 
         public async Task<NoticiaDto> AgregarNoticiasAsync(int id, string query, string busqueda)
         {

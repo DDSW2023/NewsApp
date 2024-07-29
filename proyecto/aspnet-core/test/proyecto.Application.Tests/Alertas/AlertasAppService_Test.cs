@@ -1,4 +1,6 @@
-﻿using proyecto.Alertas;
+﻿
+using proyecto.Alertas;
+using proyecto.noticias;
 using proyecto.EntityFrameworkCore;
 using proyecto.AlertasDto;
 using Shouldly;
@@ -35,11 +37,13 @@ namespace proyecto.Alertas
             var crearAlertaDto = new CrearAlertaDto();
             var textoBusqueda = "texto de prueba";
             //Act
-            var result = await _alertasAppService.CreateAlertaAsync(crearAlertaDto, textoBusqueda, 2);
+            var result = await _alertasAppService.CreateAlertaAsync(crearAlertaDto, textoBusqueda, 1); // si no se tiene un usuario con id 1, no anda, se debe crear
             //Assert
             Assert.NotNull(result);
             Assert.Equal(textoBusqueda, result.descripcion);
 
         }
+
+
     }
 }

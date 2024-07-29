@@ -54,6 +54,7 @@ public class NotificacionesAppService : proyectoAppService, INotificacionesAppSe
 
     }
 
+    // Obtener la informacion de notificaciones de las alertas del usuario para el área de notificación.
     public async Task<List<NotificacionDto>> GetNotificacionUserAsync(string user)
     {
         var notificaciones = await _repository.GetListAsync();
@@ -83,6 +84,7 @@ public class NotificacionesAppService : proyectoAppService, INotificacionesAppSe
         return lista;
     }
 
+    // Ejecucion asincrónica que busque los textos de las alertas en la API y persista la información de las notificaciones
     public async Task<List<NotificacionDto>> PersistirNotificaciones(int alertId, int userId)
     {
         var response = new List<NotificacionDto>();
