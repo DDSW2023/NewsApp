@@ -1,2 +1,2 @@
 # NewsApp
-Aplicación de noticias. Proyecto Desarrollo Software UTN-FRCU.
+Backend de aplicación de noticias. Proyecto Desarrollo Software UTN-FRCU.
